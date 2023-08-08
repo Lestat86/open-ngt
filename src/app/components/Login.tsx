@@ -10,7 +10,7 @@ const Login = () => {
     const [password, setPassword] = useState('')
 
     const router = useRouter()
-    const supabase = createClientComponentClient()
+    const supabase = createClientComponentClient<Database>()
 
     const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()

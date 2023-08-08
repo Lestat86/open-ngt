@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import LogoutButton from './Header/logout-button';
 
 const Header = async () => {
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = createServerComponentClient<Database>({ cookies });
     const {
         data: { session },
     } = await supabase.auth.getSession();

@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import Login from "./components/Login";
 
 export default async function Home() {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
   const {
     data: { session },
   } = await supabase.auth.getSession();
