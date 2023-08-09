@@ -2,6 +2,7 @@ import React from 'react'
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import LogoutButton from './Header/logout-button';
+import { Database } from '../../types/database.types';
 
 const Header = async () => {
     const supabase = createServerComponentClient<Database>({ cookies });

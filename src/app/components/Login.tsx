@@ -4,6 +4,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '../../types/database.types'
 
 const Login = () => {
     const [email, setEmail] = useState('')

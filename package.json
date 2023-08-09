@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "update_types_local": "npx supabase gen types typescript --local --schema public > lib/database.types.ts",
+    "update_types_local": "npx supabase gen types typescript --local --schema public > ./src/types/database.types.ts",
+    "better_types": "npx better-supabase-types -i ./src/types/database.types.ts -f",
+    "generate:types": "yarn update_types_local && yarn better_types",
     "apply_migrations": "npx supabase db reset"
   },
   "dependencies": {

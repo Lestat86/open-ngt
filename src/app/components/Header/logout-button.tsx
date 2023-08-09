@@ -3,6 +3,7 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import { Database } from '../../../types/database.types'
 
 type Props = {
     className?: string
