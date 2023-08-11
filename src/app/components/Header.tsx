@@ -1,23 +1,11 @@
 import React from 'react'
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import LogoutButton from './Header/logout-button';
-import { Database } from '../../types/database.types';
+import { FaChartPie } from 'react-icons/fa6';
 
 const Header = async () => {
-    const supabase = createServerComponentClient<Database>({ cookies });
-    const {
-        data: { session },
-    } = await supabase.auth.getSession();
-
-    if (!session) {
-        return null
-    }
-
     return (
-        <div className='flex w-full items-center px-8 py-4 justify-between'>
+        <div className='flex items-center py-4'>
+            <FaChartPie className='mr-2 text-2xl' />
             Open NGT
-            <LogoutButton />
         </div>
     )
 }
