@@ -52,19 +52,19 @@ export interface Database {
         Row: {
           created_at: string | null;
           id: number;
-          item_text: string | null;
+          item_text: string;
           trial_id: string;
         };
         Insert: {
           created_at?: string | null;
           id?: number;
-          item_text?: string | null;
+          item_text: string;
           trial_id: string;
         };
         Update: {
           created_at?: string | null;
           id?: number;
-          item_text?: string | null;
+          item_text?: string;
           trial_id?: string;
         };
         Relationships: [
@@ -239,15 +239,19 @@ export interface Database {
           exported: boolean;
           exported_at: string | null;
           id: string;
-          owner_id: string;
+          name: string;
+          owner_id: string | null;
+          progressive: number;
           status: number;
         };
         Insert: {
           created_at?: string | null;
           exported?: boolean;
           exported_at?: string | null;
-          id: string;
-          owner_id: string;
+          id?: string;
+          name: string;
+          owner_id?: string | null;
+          progressive?: number;
           status?: number;
         };
         Update: {
@@ -255,7 +259,9 @@ export interface Database {
           exported?: boolean;
           exported_at?: string | null;
           id?: string;
-          owner_id?: string;
+          name?: string;
+          owner_id?: string | null;
+          progressive?: number;
           status?: number;
         };
         Relationships: [
