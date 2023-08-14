@@ -1,11 +1,11 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import React from 'react'
-import { Database } from '../../types/database.types';
 
 import { cookies } from "next/headers";
 
 import AddTrial from './add-trial';
 import TrialsTable from './trials-table';
+import { Database } from '@/types/database.types';
 
 const Trials = async () => {
     const supabase = createServerComponentClient<Database>({ cookies });

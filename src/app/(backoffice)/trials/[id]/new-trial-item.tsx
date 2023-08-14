@@ -97,12 +97,12 @@ const NewTrialItem = (props: Props) => {
                                 <input placeholder={`${current.criteria_name} min value`}
                                     {...register(`criteria.${current.id}.minValue`, { required: true })}
                                     type='number'
-                                    className={`max-w-[90%] p-1 border-solid border-2 ${!minValueError ? 'border-gray-300' : 'border-red-600'}`} />
+                                    className={`max-w-[90%] p-1 m-2 border-solid border-2 ${!minValueError ? 'border-gray-300' : 'border-red-600'}`} />
 
                                 <input placeholder={`${current.criteria_name} max value`}
                                     {...register(`criteria.${current.id}.maxValue`, { required: true })}
                                     type='number'
-                                    className={`max-w-[90%] p-1 border-solid border-2 ${!maxValueError ? 'border-gray-300' : 'border-red-600'}`} />
+                                    className={`max-w-[90%] p-1 m-2 border-solid border-2 ${!maxValueError ? 'border-gray-300' : 'border-red-600'}`} />
                             </div>
                         )
                     })}

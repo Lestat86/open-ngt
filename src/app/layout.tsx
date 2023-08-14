@@ -1,13 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Header from './components/Header'
-import NavBar from './components/navbar'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/types/database.types'
 
-import { cookies } from "next/headers";
-import Login from './components/Login'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,30 +15,10 @@ type Props = {
 }
 
 export default async function RootLayout(props: Props) {
-  const supabase = createServerComponentClient<Database>({ cookies });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    return (
-      <html lang="en">
-        <body className={inter.className}>
-          <Login />
-        </body>
-      </html >
-    )
-  }
-
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className='flex w-full h-screen'>
-          <NavBar />
-          <main className='py-4 px-8 w-full bg-white text-black'>
-            {props.children}
-          </main>
-        </div>
+        {props.children}
       </body>
     </html >
   )

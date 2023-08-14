@@ -3,9 +3,9 @@
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Modal from '../components/modal'
 import { Measures } from '@/types/database.types'
 import { FaPlus } from 'react-icons/fa6'
+import Modal from '@/app/components/modal'
 
 type Props = {
     measures: Measures[]

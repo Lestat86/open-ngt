@@ -3,10 +3,10 @@
 import ClientDataGrid from '@/app/components/client-data-grid';
 import { Trials } from '@/types/database.types';
 import React from 'react'
-import { TrialStatusLabels } from '../constants/constants';
 import { useRouter } from 'next/navigation';
 
 import { FaPen } from "react-icons/fa6";
+import { TrialStatusLabels } from '@/app/constants/constants';
 
 type Props = {
     rows: Trials[]
