@@ -205,6 +205,7 @@ export interface Database {
       trial_partecipant: {
         Row: {
           created_at: string | null;
+          has_submitted: boolean | null;
           id: number;
           isPresent: boolean | null;
           partecipant_id: string | null;
@@ -212,6 +213,7 @@ export interface Database {
         };
         Insert: {
           created_at?: string | null;
+          has_submitted?: boolean | null;
           id?: number;
           isPresent?: boolean | null;
           partecipant_id?: string | null;
@@ -219,6 +221,7 @@ export interface Database {
         };
         Update: {
           created_at?: string | null;
+          has_submitted?: boolean | null;
           id?: number;
           isPresent?: boolean | null;
           partecipant_id?: string | null;
@@ -243,6 +246,7 @@ export interface Database {
           owner_id: string | null;
           progressive: number;
           status: number;
+          turn: number | null;
         };
         Insert: {
           created_at?: string | null;
@@ -253,6 +257,7 @@ export interface Database {
           owner_id?: string | null;
           progressive?: number;
           status?: number;
+          turn?: number | null;
         };
         Update: {
           created_at?: string | null;
@@ -263,6 +268,7 @@ export interface Database {
           owner_id?: string | null;
           progressive?: number;
           status?: number;
+          turn?: number | null;
         };
         Relationships: [
           {
