@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { Measures } from '@/types/database.types'
 import { FaPlus } from 'react-icons/fa6'
 import Modal from '@/app/components/modal'
+import { API_URLS, NEXT_URL } from '@/app/constants/constants'
 
 type Props = {
     measures: Measures[]
@@ -21,8 +22,6 @@ const AddTrial = (props: Props) => {
 
     const router = useRouter();
 
-    const nextUrl = process.env.NEXT_PUBLIC_HOST_URL
-
     const {
         register,
         handleSubmit,
@@ -33,7 +32,7 @@ const AddTrial = (props: Props) => {
         const name = data.trialName
         const measures = data.measures
 
-        const created = await fetch(`${nextUrl}/api/trials`, {
+        const created = await fetch(`${NEXT_URL}/${API_URLS.TRIALS}`, {
             method: "put",
             body: JSON.stringify({ name }),
         });
@@ -49,7 +48,7 @@ const AddTrial = (props: Props) => {
             }))
 
 
-        await fetch(`${nextUrl}/api/trial-measures`, {
+        await fetch(`${NEXT_URL}/${API_URLS.TRIAL_MEASURES}`, {
             method: "put",
             body: JSON.stringify({ trialMeasures }),
         });

@@ -1,6 +1,7 @@
 "use client"
 
 import Modal from '@/app/components/modal'
+import { API_URLS, NEXT_URL } from '@/app/constants/constants'
 import { TrialPartecipant } from '@/types/database.types'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -17,8 +18,6 @@ const ManagePartecipants = (props: Props) => {
     const [bulkNumber, setBulkNumber] = useState<number>(0)
 
     const router = useRouter();
-
-    const nextUrl = process.env.NEXT_PUBLIC_HOST_URL
 
     const addPartecipants = async (bulk?: boolean) => {
         const partecipants = []
@@ -44,7 +43,7 @@ const ManagePartecipants = (props: Props) => {
             partecipants.push(partecipant)
         }
 
-        await fetch(`${nextUrl}/api/trial-partecipants`, {
+        await fetch(`${NEXT_URL}/${API_URLS.TRIAL_PARTECIPANTS}`, {
             method: "put",
             body: JSON.stringify({ partecipants }),
         });
@@ -72,7 +71,7 @@ const ManagePartecipants = (props: Props) => {
             partecipantsToDelete.push(partecipantId)
         }
 
-        await fetch(`${nextUrl}/api/trial-partecipants`, {
+        await fetch(`${NEXT_URL}/${API_URLS.TRIAL_PARTECIPANTS}`, {
             method: "delete",
             body: JSON.stringify({ partecipantsToDelete }),
         });

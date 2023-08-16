@@ -1,6 +1,7 @@
 "use client"
 
 import Modal from '@/app/components/modal'
+import { API_URLS, NEXT_URL } from '@/app/constants/constants'
 import { Criteria } from '@/types/database.types'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -22,8 +23,6 @@ const NewTrialItem = (props: Props) => {
 
     const router = useRouter();
 
-    const nextUrl = process.env.NEXT_PUBLIC_HOST_URL
-
     const {
         register,
         handleSubmit,
@@ -44,7 +43,7 @@ const NewTrialItem = (props: Props) => {
         const trialId = props.trialId
         const criteria = data.criteria
 
-        const created = await fetch(`${nextUrl}/api/trial-items`, {
+        const created = await fetch(`${NEXT_URL}/${API_URLS.TRIAL_ITEMS}`, {
             method: "put",
             body: JSON.stringify({ text, trialId }),
         });
@@ -60,7 +59,7 @@ const NewTrialItem = (props: Props) => {
                 max_value: current.maxValue,
             }))
 
-        await fetch(`${nextUrl}/api/trial-item-with-criteria`, {
+        await fetch(`${NEXT_URL}/${API_URLS.TRIAL_ITEM_WITH_CRITERIA}`, {
             method: "put",
             body: JSON.stringify({ trialItemWithCriteria }),
         });
