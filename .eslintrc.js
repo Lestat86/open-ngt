@@ -419,12 +419,8 @@ module.exports = {
     'no-unmodified-loop-condition': 'error',
     'no-unneeded-ternary':          'error',
     'no-unused-expressions':        'error',
-    'no-unused-vars':               [
-      'error',
-      {
-        ignoreRestSiblings: true
-      }
-    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
     'no-use-before-define':             'error',
     'no-useless-call':                  'error',
     'no-useless-computed-key':          'error',
@@ -487,7 +483,6 @@ module.exports = {
       { avoidEscape: true }
     ],
     radix:                          'error',
-    'react/jsx-props-no-spreading': 'error',
     'react/no-danger':              'error',
     'react/no-unused-prop-types':   'error',
     'react/no-unused-state':        'error',
