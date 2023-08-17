@@ -1,25 +1,21 @@
-import '../../../globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-
-
-const inter = Inter({ subsets: ['latin'] })
+import '../../../globals.css';
+import type { Metadata } from 'next';
+import React from 'react';
 
 export const metadata: Metadata = {
-    title: 'Open NGT',
-    description: 'Open NGT platform',
-}
+  title:       'Open NGT',
+  description: 'Open NGT platform',
+};
 
 type Props = {
     children: React.ReactNode
 }
 
+// eslint-disable-next-line require-await
 export default async function RootLayout(props: Props) {
-    return (
-        <html lang="en">
-            <body className={inter.className}>
-                {props.children}
-            </body>
-        </html >
-    )
+  return (
+    <div className="flex w-full h-screen py-4 px-8 w-full bg-white text-black">
+      {props.children}
+    </div>
+  );
 }
