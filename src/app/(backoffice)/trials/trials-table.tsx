@@ -1,12 +1,13 @@
-"use client"
+'use client';
 
 import ClientDataGrid from '@/app/components/client-data-grid';
 import { Trials } from '@/types/database.types';
-import React from 'react'
+import React from 'react';
 import { useRouter } from 'next/navigation';
 
-import { FaPen } from "react-icons/fa6";
+import { FaPen, FaPlay } from 'react-icons/fa6';
 import { TrialStatusLabels } from '@/app/constants/constants';
+import Link from 'next/link';
 
 type Props = {
     rows: Trials[]
@@ -17,43 +18,55 @@ interface IRowProps {
 }
 
 const TrialsTable = (props: Props) => {
-    const router = useRouter()
+  const router = useRouter();
 
-    const toTrialEdit = (id: string) => router.push(`/trials/${id}`)
+  const toTrialEdit = (id: string) => router.push(`/trials/${id}`);
 
-    const columns = [
-        {
-            key: 'name',
-            name: 'Name'
-        },
-        {
-            key: 'status',
-            name: 'Status',
-            renderCell(props: IRowProps) {
-                const value = props.row.status;
+  const columns = [
+    {
+      key:  'name',
+      name: 'Name',
+    },
+    {
+      key:  'status',
+      name: 'Status',
+      renderCell(statusProps: IRowProps) {
+        const value = statusProps.row.status;
 
-                return (
-                    // @ts-expect-error
-                    <span>{TrialStatusLabels[value]}</span>
-                );
-            }
-        },
-        {
-            key: 'trial_item_with_criteria.s',
-            name: '',
-            renderCell(props: IRowProps) {
-                const trial = props.row as Trials
+        return (
+        // @ts-expect-error fix this later
+          <span>{TrialStatusLabels[value]}</span>
+        );
+      },
+    },
+    {
+      key:  'edit_trial',
+      name: '',
+      renderCell(editProps: IRowProps) {
+        const trial = editProps.row as Trials;
 
-                return (
-                    <button onClick={() => toTrialEdit(trial.id)}><FaPen /></button>
-                );
-            }
-        },
-    ];
+        return (
+          // eslint-disable-next-line jsx-a11y/control-has-associated-label
+          <button onClick={() => toTrialEdit(trial.id)}><FaPen /></button>
+        );
+      },
+    },
+    {
+      key:  'run_trial',
+      name: '',
+      renderCell(runProps: IRowProps) {
+        const trial = runProps.row as Trials;
 
-    return (
-        <ClientDataGrid columns={columns} rows={props.rows} emptyMessage='no trials!' />
-    )
-}
+        return (
+          <Link href={`runs/${trial.id}`}><FaPlay /></Link>
+        );
+      },
+    },
+  ];
 
-export default TrialsTable
+  return (
+    <ClientDataGrid columns={columns} rows={props.rows} emptyMessage="no trials!" />
+  );
+};
+
+export default TrialsTable;
