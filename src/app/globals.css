@@ -24,7 +24,11 @@ body {
 }
 
 .button-primary {
-  @apply px-4 py-2 bg-blue-700 text-white font-semibold uppercase flex items-center rounded-md
+  @apply px-4 py-2 bg-blue-700 text-white font-semibold uppercase flex items-center rounded-md;
+
+  &:hover {
+    @apply bg-blue-500;
+  }
 }
 
 *:disabled {
