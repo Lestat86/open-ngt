@@ -10,7 +10,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'next',
     'next/core-web-vitals',
-    '@typescript-eslint',
+    'plugin:@typescript-eslint/recommended',
   ],
   settings: {
     react: {
@@ -49,9 +49,8 @@ module.exports = {
   ],
   env: {
     browser: true,
-    mocha:   true,
     node:    true,
-    es6:     true
+    es2021:     true
   },
   globals: {
     SharedArrayBuffer: 'readonly',
@@ -65,6 +64,10 @@ module.exports = {
   },
   parserOptions: {
     "ecmaVersion": 2020,
+    'ecmaFeatures': {
+      'jsx': true,
+      'tsx': true
+    },
     project: [
       "./tsconfig.json"
   ]
@@ -581,5 +584,7 @@ module.exports = {
     'wrap-regex':         'error',
     'yield-star-spacing': 'error',
     'jsx-a11y/anchor-is-valid':  'off',
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 };
