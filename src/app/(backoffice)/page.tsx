@@ -1,6 +1,6 @@
-import { Database } from "@/types/database.types";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { Database } from '@/types/database.types';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -9,7 +9,7 @@ export default async function Home() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    return null
+    return null;
   }
 
   return (

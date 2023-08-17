@@ -73,8 +73,6 @@ const TrialItemsForm = (props: Props) => {
     } else {
       setSubmitError(answersResponse.statusText);
     }
-
-    console.log('formData', answers);
   });
 
   if (!show) {

@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 import { FaChartPie } from 'react-icons/fa6';
 
-const Header = async () => {
-    return (
-        <div className='flex items-center py-4'>
-            <FaChartPie className='mr-2 text-2xl' />
+const Header = () => {
+  return (
+    <div className="flex items-center py-4">
+      <FaChartPie className="mr-2 text-2xl" />
             Open NGT
-        </div>
-    )
-}
+    </div>
+  );
+};
 
-export default Header
+export default Header;

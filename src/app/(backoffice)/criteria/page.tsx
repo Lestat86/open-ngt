@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Criteria, Database } from '@/types/database.types';
 
 import 'react-data-grid/lib/styles.css';
@@ -9,29 +9,31 @@ import 'react-data-grid/lib/styles.css';
 import DataGrid from 'react-data-grid';
 
 const columns = [
-    { key: 'id', name: 'ID' },
-    { key: 'criteria_name', name: 'Name' }
+  { key: 'id', name: 'ID' },
+  { key: 'criteria_name', name: 'Name' },
 ];
 
+// eslint-disable-next-line no-import-assign
 const Criteria = () => {
-    const [criteria, setCriteria] = useState<Criteria[] | null>()
+  const [ criteria, setCriteria ] = useState<Criteria[] | null>();
 
-    useEffect(() => {
-        const getData = async () => {
-            const { data } = await supabase.from('criteria').select()
-            setCriteria(data)
-        }
+  const supabase = createClientComponentClient<Database>();
 
-        getData()
-    }, [])
-    const supabase = createClientComponentClient<Database>();
+  useEffect(() => {
+    const getData = async() => {
+      const { data } = await supabase.from('criteria').select();
+      setCriteria(data);
+    };
 
-    return (
-        <div className='flex flex-col'>
-            <div className='text-2xl'>Criteria</div>
-            <DataGrid columns={columns} rows={criteria ?? []} />
-        </div>
-    )
-}
+    getData();
+  }, [ supabase ]);
 
-export default Criteria
+  return (
+    <div className="flex flex-col">
+      <div className="text-2xl">Criteria</div>
+      <DataGrid columns={columns} rows={criteria ?? []} />
+    </div>
+  );
+};
+
+export default Criteria;

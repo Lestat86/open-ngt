@@ -68,7 +68,9 @@ const getParsedAnswers = (answers:ITrialAnswerWithCriteriaAndText[]) => {
       currentCriteria[answer.turn] = {
         label:           `Turn ${answer.turn}`,
         data:            [ answer.score ],
+        // @ts-expect-error fix this later
         borderColor:     TURNS_COLOR[answer.turn],
+        // @ts-expect-error fix this later
         backgroundColor: TURNS_COLOR[answer.turn],
       };
     } else {
@@ -89,7 +91,6 @@ const TurnEndGraphs = (props: Props) => {
 
   const getData = useCallback(
     async() => {
-      console.log('pusso');
       const { data } = await supabase
         .from('trial_items_answers')
         .select('*, criteria(criteria_name),trial_item!inner(trial_id, item_text)')
@@ -101,7 +102,6 @@ const TurnEndGraphs = (props: Props) => {
   );
 
   useEffect(() => {
-    console.log('passo');
     getData();
   }, [ getData ]);
 
@@ -125,7 +125,6 @@ const TurnEndGraphs = (props: Props) => {
     };
   }, [ getData, supabase, trialId ]);
 
-  console.log('rendero', currentStatus);
   if (currentStatus !== TrialStatus.TURN_ENDED && currentStatus !== TrialStatus.COMPLETED) {
     return null;
   }
@@ -141,15 +140,15 @@ const TurnEndGraphs = (props: Props) => {
     <div className="flex flex-col p-2 w-full">Graphs!
       <div className="flex flex-col w-full overflow-y-auto">
         {
-          Object.entries(parsedData).map(([ key, value ]) => (
-            <div key={`question_${key}`} className="flex flex-col w-full">
-              {questionMap[key]}
+          Object.entries(parsedData).map(([ questionId, questionValue ]) => (
+            <div key={`question_${questionId}`} className="flex flex-col w-full">
+              {questionMap[questionId]}
               <div className="flex my-4 w-full">
-                {Object.entries(value).map(([ key2, value2 ]) => (
-                  <div className="flex flex-col mx-2 w-full" key={`criteria_${key2}`}>
-                    <Histogram datasets={Object.values(value2)}
-                      labels={labels} key={`histo_${key}_${key2}`}
-                      title={criteriaMap[key2]} />
+                {Object.entries(questionValue).map(([ criteriaId, valueId ]) => (
+                  <div className="flex flex-col mx-2 w-full" key={`criteria_${criteriaId}`}>
+                    <Histogram datasets={Object.values(valueId)}
+                      labels={labels} key={`histo_${questionId}_${criteriaId}`}
+                      title={criteriaMap[criteriaId]} />
                   </div>
                 ))}
               </div>

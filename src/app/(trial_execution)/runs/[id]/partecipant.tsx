@@ -42,7 +42,7 @@ const PartecipantUI = (props: Props) => {
     };
 
     getData();
-  }, []);
+  }, [ supabase, trial?.id ]);
 
   useEffect(() => {
     const channel = supabase
