@@ -7,5 +7,5 @@ values
 insert into
 public.measures (measure_name)
 values
-('DEV_STD'),
-('QR');
+('STDEV'),
+('IQR');
