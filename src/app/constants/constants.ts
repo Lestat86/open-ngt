@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-shadow
 export enum TrialStatus {
     CREATED = 0,
     STARTED = 1,
@@ -37,4 +38,9 @@ export const TURNS_COLOR = {
   2: '#d02dd7',
   3: '#d7d02d',
   4: '#2d34d7',
+};
+
+export const MEASURES_NAMES = {
+  STDEV: 'STDEV',
+  IQR:   'IQR',
 };
