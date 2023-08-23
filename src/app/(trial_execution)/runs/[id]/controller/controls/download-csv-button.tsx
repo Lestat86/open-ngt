@@ -29,7 +29,7 @@ const DownloadCsvButton = (props: Props) => {
 
   return (
     <button onClick={getCSV} className="button-primary my-2">
-        Donwload results
+        Download results
     </button>
   );
 };
