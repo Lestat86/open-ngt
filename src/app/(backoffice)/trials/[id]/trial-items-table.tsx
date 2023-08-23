@@ -1,15 +1,17 @@
 'use client';
 
 import ClientDataGrid from '@/app/components/client-data-grid';
-import { API_URLS, NEXT_URL } from '@/app/constants/constants';
+import { API_URLS, NEXT_URL, TrialStatus } from '@/app/constants/constants';
 import { Criteria, TrialItem, TrialItemWithCriteria } from '@/types/database.types';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { createPortal } from 'react-dom';
+import DeleteTrialItem from './delete-trial-item';
 
 type Props = {
     rows: TrialItem[]
     criteria: Criteria[]
+    status: TrialStatus
 }
 
 interface CriteriaCellProps {
@@ -18,12 +20,22 @@ interface CriteriaCellProps {
     }
 }
 
+interface DeleteCellProps {
+    row: {
+        id: number
+    }
+}
+
 interface IItemTextRow {
     id: number
     item_text: string
 }
 
-const getColumns = (criteria: Criteria[], editFun: (updated:IItemTextRow) => void) => {
+const getColumns = (
+  criteria: Criteria[],
+  editFun: (updated:IItemTextRow) => void,
+  status: TrialStatus,
+) => {
   const baseColumns = [
     { key:   'item_text',
       name:  'Text',
@@ -102,7 +114,19 @@ const getColumns = (criteria: Criteria[], editFun: (updated:IItemTextRow) => voi
   ])
     .reduce((acc, curr) => acc.concat(curr), []);
 
-  return [ ...baseColumns, ...criteriaCols ];
+  const additionalCols = [
+    {
+      key:  'delete_item',
+      name: '',
+      renderCell(deleteProps: DeleteCellProps) {
+        return (
+          <DeleteTrialItem itemId={deleteProps.row.id} currentStatus={status} />
+        );
+      },
+    },
+  ];
+
+  return [ ...baseColumns, ...criteriaCols, ...additionalCols ];
 };
 
 const TrialItemsTable = (props: Props) => {
@@ -121,7 +145,8 @@ const TrialItemsTable = (props: Props) => {
     }
   };
   return (
-    <ClientDataGrid columns={getColumns(props.criteria, editFun)} rows={props.rows} emptyMessage="no items!" />
+    <ClientDataGrid columns={getColumns(props.criteria, editFun, props.status)}
+      rows={props.rows} emptyMessage="no items!" />
   );
 };
 

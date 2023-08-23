@@ -76,7 +76,8 @@ const EditTrial = async(props: Props) => {
         <DeleteTrial trialId={trialId} currentStatus={trial.status} />
       </div>
 
-      <TrialItemsTable rows={trialItemsWithCriteria ?? []} criteria={criteria ?? []} />
+      <TrialItemsTable rows={trialItemsWithCriteria ?? []} criteria={criteria ?? []}
+        status={trial.status}/>
 
       <div className="flex items-center py-1 mt-4">
         <span className="text-2xl mr-2">
