@@ -37,14 +37,20 @@ const RunTrial = async(props: Props) => {
     .match({ trial_id: trialId })
     .order('id', { ascending: true });
 
+  const { data: measures } = await supabase
+    .from('trial_measures')
+    .select('*, measures(measure_name)')
+    .match({ trial_id: trialId });
+
   if (!session) {
     return (
-      <PartecipantUI turn={trial.turn ?? 0} trial={trial} partecipants={trialPartecipants ?? []} />
+      <PartecipantUI turn={trial.turn ?? 0} trial={trial} partecipants={trialPartecipants ?? []}
+        measures={measures ?? []} />
     );
   }
 
   return (
-    <ControllerUI trial={trial} partecipants={trialPartecipants ?? []} />
+    <ControllerUI trial={trial} partecipants={trialPartecipants ?? []} measures={measures ?? []}/>
   );
 };
 

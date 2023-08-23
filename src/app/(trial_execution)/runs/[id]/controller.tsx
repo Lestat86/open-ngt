@@ -7,15 +7,17 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import Controls from './controller/controls';
-import TurnEndGraphs from './controller/turn-end-graphs';
+import GraphsContainer from './controller/graphs-container';
+import { ITrialMeasureWithName } from '@/types/misc';
 
 type Props = {
     trial: Trials
     partecipants: TrialPartecipant[]
+    measures: ITrialMeasureWithName[]
 }
 
 const ControllerUI = (props: Props) => {
-  const { trial, partecipants } = props;
+  const { trial, partecipants, measures } = props;
 
   const router = useRouter();
 
@@ -108,12 +110,13 @@ const ControllerUI = (props: Props) => {
   const allSubmitted = partecipants.every((partecipant) => partecipant.has_submitted);
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full h-full overflow-y-hidden">
       <div>RunTrial {split[3]}</div>
       <div>{trial?.name}</div>
       {/* @ts-expect-error fix this later */}
       <div>Status {TrialStatusLabels[trial.status]}</div>
-      <div className="flex w-full">
+      <div>Current turn: {trial.turn}</div>
+      <div className="flex w-full h-[90%]">
         <div className="flex flex-col w-1/4">
           <Controls status={trial.status} trialId={trial.id}
             allSubmitted={allSubmitted} turn={trial.turn ?? 0} />
@@ -124,8 +127,8 @@ const ControllerUI = (props: Props) => {
             <TrialPartecipantsTable rows={partecipants} showStatus />
           </div>
         </div>
-        <TurnEndGraphs currentStatus={trial.status} trialId={trial.id}
-          partecipants={partecipants} />
+        <GraphsContainer currentStatus={trial.status} trialId={trial.id}
+          partecipants={partecipants} measures={measures}/>
       </div>
     </div>
   );
