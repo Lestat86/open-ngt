@@ -24,6 +24,18 @@ const TrialsTable = (props: Props) => {
 
   const columns = [
     {
+      key:  'created_at',
+      name: 'Created At',
+      renderCell(statusProps: IRowProps) {
+        const value = statusProps.row.created_at;
+        const dateValue = new Date(value!);
+
+        return (
+          <span>{dateValue.toDateString()}</span>
+        );
+      },
+    },
+    {
       key:  'name',
       name: 'Name',
     },

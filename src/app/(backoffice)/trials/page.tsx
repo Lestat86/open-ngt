@@ -12,7 +12,8 @@ const Trials = async() => {
 
   const { data: trials } = await supabase
     .from('trials')
-    .select();
+    .select()
+    .order('created_at', { ascending: false });
 
   const { data: measures } = await supabase
     .from('measures')
