@@ -13,6 +13,7 @@ const columns = [
   { key: 'measure_name', name: 'Name' },
 ];
 
+// eslint-disable-next-line no-import-assign
 const Measures = () => {
   const [ measures, setMeasures ] = useState<Measures[] | null>();
 

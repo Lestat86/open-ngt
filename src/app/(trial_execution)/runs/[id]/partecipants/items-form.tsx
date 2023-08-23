@@ -124,7 +124,7 @@ const TrialItemsForm = (props: Props) => {
         <input type="submit" value="Submit" className="cursor-pointer p-1 button-primary" />
         {
           submitError
-                    && <span className="text-red-600">{submitError}</span>
+            && <span className="text-red-600">{submitError}</span>
         }
       </form>
     </div>
