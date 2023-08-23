@@ -29,6 +29,7 @@ export const API_URLS = {
   PARTECIPANT_LOGIN:               'api/partecipants/login',
   PARTECIPANT_SET_SUBMITTED:       'api/partecipants/set-submitted',
   PARTECIPANT_RESET_ALL_SUBMITTED: 'api/partecipants/reset-all-submitted',
+  GET_RESULTS_CSV:                 'api/get-trial-results-csv',
 };
 
 export const NEXT_URL = process.env.NEXT_PUBLIC_HOST_URL;

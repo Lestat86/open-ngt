@@ -3,6 +3,7 @@
 import React from 'react';
 import StatusButton from './status-button';
 import { API_URLS, NEXT_URL, TrialStatus } from '@/app/constants/constants';
+import DownloadCsvButton from './controls/download-csv-button';
 
 type Props = {
     status: number
@@ -54,6 +55,8 @@ const Controls = (props: Props) => {
       <StatusButton currentStatus={status}
         showIfInStatus={TrialStatus.TURN_ENDED}
         statusToSet={TrialStatus.COMPLETED} trialId={trialId} />
+      <DownloadCsvButton currentStatus={status}
+        showIfInStatus={TrialStatus.COMPLETED} trialId={trialId} />
     </div>
   );
 };
