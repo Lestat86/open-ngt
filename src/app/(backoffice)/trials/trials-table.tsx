@@ -6,7 +6,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 
 import { FaPen, FaPlay } from 'react-icons/fa6';
-import { TrialStatusLabels } from '@/app/constants/constants';
+import { TrialStatus, TrialStatusLabels } from '@/app/constants/constants';
 import Link from 'next/link';
 
 type Props = {
@@ -59,7 +59,8 @@ const TrialsTable = (props: Props) => {
 
         return (
           // eslint-disable-next-line jsx-a11y/control-has-associated-label
-          <button onClick={() => toTrialEdit(trial.id)}><FaPen /></button>
+          <button className="flex items-center"
+            onClick={() => toTrialEdit(trial.id)}><FaPen /></button>
         );
       },
     },
@@ -68,6 +69,10 @@ const TrialsTable = (props: Props) => {
       name: '',
       renderCell(runProps: IRowProps) {
         const trial = runProps.row as Trials;
+
+        if (trial.status === TrialStatus.COMPLETED) {
+          return null;
+        }
 
         return (
           <Link href={`runs/${trial.id}`}><FaPlay /></Link>

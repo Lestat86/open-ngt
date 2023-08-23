@@ -1,7 +1,7 @@
 'use client';
 
 import Modal from '@/app/components/modal';
-import { API_URLS, NEXT_URL } from '@/app/constants/constants';
+import { API_URLS, NEXT_URL, TrialStatus } from '@/app/constants/constants';
 import { Criteria } from '@/types/database.types';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -11,6 +11,7 @@ import { FaPlus } from 'react-icons/fa6';
 type Props = {
     trialId?: string
     criteria: Criteria[]
+    currentStatus?: TrialStatus
 }
 
 type NewTrialItemData = {
@@ -71,6 +72,10 @@ const NewTrialItem = (props: Props) => {
 
   const isValid = errors.itemText === undefined;
 
+  if (props.currentStatus !== TrialStatus.CREATED && props.currentStatus !== TrialStatus.STARTED) {
+    return null;
+  }
+
   return (
     <>
       <Modal show={isCreating} closeFun={toggleCreating}>
@@ -108,7 +113,7 @@ const NewTrialItem = (props: Props) => {
         </form>
       </Modal>
 
-      <button className="button-primary" onClick={toggleCreating}>
+      <button className="button-primary" onClick={toggleCreating} >
                 New Trial Item
         <FaPlus className="ml-2" />
       </button>

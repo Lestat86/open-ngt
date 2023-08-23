@@ -1,7 +1,7 @@
 'use client';
 
 import Modal from '@/app/components/modal';
-import { API_URLS, NEXT_URL } from '@/app/constants/constants';
+import { API_URLS, NEXT_URL, TrialStatus } from '@/app/constants/constants';
 import { TrialPartecipant } from '@/types/database.types';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -11,6 +11,7 @@ type Props = {
     trialId?: string
     trialProgressive: number
     partecipants: TrialPartecipant[]
+    currentStatus?: TrialStatus
 }
 
 const ManagePartecipants = (props: Props) => {
@@ -96,6 +97,10 @@ const ManagePartecipants = (props: Props) => {
   const canDeleteBulk = () => props.partecipants.length === 0
   || bulkNumber === 0
   || bulkNumber > props.partecipants.length;
+
+  if (props.currentStatus !== TrialStatus.CREATED && props.currentStatus !== TrialStatus.STARTED) {
+    return null;
+  }
 
   return (
     <>
