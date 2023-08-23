@@ -42,6 +42,8 @@ const getColumns = (
       width: 'max-content',
       // @ts-expect-error fix this when the library updates
       renderEditCell({ row, onRowChange, onClose }) {
+        const disabled = status !== TrialStatus.CREATED && status !== TrialStatus.STARTED;
+
         const closeFun = async(updated:IItemTextRow) => {
           await editFun(updated);
 
@@ -60,6 +62,7 @@ const getColumns = (
             <dialog open className="p-4 flex flex-col">
               <textarea id="newValue" name="newValue" rows={5} cols={33}
                 className="resize-none p-2 border border-solid"
+                readOnly={disabled}
                 value={row.item_text}
                 onChange={(e) => onRowChange({ ...row, item_text: e.target.value })} />
               <menu className="flex justify-between items-center mt-2 px-2">
@@ -67,7 +70,7 @@ const getColumns = (
                   Cancel
                 </button>
                 <button type="button" className="button-primary"
-                  onClick={() => closeFun(row)}>
+                  onClick={() => closeFun(row)} disabled={disabled}>
                   Save
                 </button>
               </menu>
