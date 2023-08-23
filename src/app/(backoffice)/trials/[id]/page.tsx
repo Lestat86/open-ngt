@@ -9,6 +9,7 @@ import ManagePartecipants from './manage-partecipants';
 import TrialPartecipantsTable from './trial-partecipants-table';
 import ReferenceTrialParams from '@/app/(trial_execution)/runs/[id]/controller/graphs-container/turn-end-graphs/reference-params';
 import DeleteTrial from '../delete-trial';
+import { TrialStatusLabels } from '@/app/constants/constants';
 
 type Props = {
     params: { id: string }
@@ -44,10 +45,26 @@ const EditTrial = async(props: Props) => {
     .select('*, measures(measure_name)')
     .match({ trial_id: trialId });
 
+  if (!trial) {
+    return (
+      <div className="flex justify-center items-center w-full">
+        <div className="flex flex-col p-2">
+          <span className="text-2xl text-red-600">
+            Error!
+          </span>
+          <span className="text-xl">
+              This trial does not exists.
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-full overflow-y-auto">
       <span className="text-4xl">
-        {trial?.name}
+        {/* @ts-expect-error fix this later */}
+        {trial.name} ({TrialStatusLabels[trial.status]})
         <ReferenceTrialParams measures={measures ?? []} />
       </span>
 
@@ -55,8 +72,8 @@ const EditTrial = async(props: Props) => {
         <span className="text-2xl mr-2">
           {`This trial has ${trialItemsWithCriteria?.length} items`}
         </span>
-        <NewTrialItem trialId={trialId} criteria={criteria ?? []} currentStatus={trial?.status} />
-        <DeleteTrial trialId={trialId} currentStatus={trial?.status} />
+        <NewTrialItem trialId={trialId} criteria={criteria ?? []} currentStatus={trial.status} />
+        <DeleteTrial trialId={trialId} currentStatus={trial.status} />
       </div>
 
       <TrialItemsTable rows={trialItemsWithCriteria ?? []} criteria={criteria ?? []} />
@@ -66,7 +83,7 @@ const EditTrial = async(props: Props) => {
           {`This trial has ${trialPartecipants?.length} partecipants`}
         </span>
         <ManagePartecipants trialId={trialId} partecipants={trialPartecipants ?? []}
-          trialProgressive={trial?.progressive ?? 0} currentStatus={trial?.status} />
+          trialProgressive={trial.progressive ?? 0} currentStatus={trial.status} />
       </div>
 
       <TrialPartecipantsTable rows={trialPartecipants ?? []} />
