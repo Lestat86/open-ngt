@@ -67,7 +67,8 @@ const EditTrial = async(props: Props) => {
         {/* @ts-expect-error fix this later */}
         {trial.name} ({TrialStatusLabels[trial.status]})
         <ReferenceTrialParams measures={measures ?? []} />
-        <EditTrialData trial={trial} currentMeasures={measures ?? []} />
+        <EditTrialData trial={trial} currentMeasures={measures ?? []}
+          currentStatus={trial.status} />
       </span>
 
       <div className="flex items-center py-1 mt-4">

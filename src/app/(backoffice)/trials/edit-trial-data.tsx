@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaPlus } from 'react-icons/fa6';
-import { API_URLS, NEXT_URL } from '@/app/constants/constants';
+import { API_URLS, NEXT_URL, TrialStatus } from '@/app/constants/constants';
 import { createPortal } from 'react-dom';
 import { ITrialMeasureWithName } from '@/types/misc';
 import { Trials } from '@/types/database.types';
@@ -12,6 +12,7 @@ import { Trials } from '@/types/database.types';
 type Props = {
     trial: Trials
     currentMeasures: ITrialMeasureWithName[]
+    currentStatus: TrialStatus
 }
 
 interface MeasureFormField {
@@ -28,7 +29,7 @@ type EditTrialFormData = {
 }
 
 const EditTrialData = (props: Props) => {
-  const { trial, currentMeasures } = props;
+  const { trial, currentMeasures, currentStatus } = props;
   const [ showModal, setShowModal ] = useState(false);
 
   const defaultMeasures:MeasureFormField = {};
@@ -81,6 +82,10 @@ const EditTrialData = (props: Props) => {
   const toggleCreating = () => setShowModal(!showModal);
 
   const isValid = errors.trialName === undefined;
+
+  if (currentStatus !== TrialStatus.CREATED && currentStatus !== TrialStatus.STARTED) {
+    return null;
+  }
 
   if (showModal) {
     return createPortal(
