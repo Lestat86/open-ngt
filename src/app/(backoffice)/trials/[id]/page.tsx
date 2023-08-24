@@ -11,6 +11,7 @@ import ReferenceTrialParams from '@/app/(trial_execution)/runs/[id]/controller/g
 import DeleteTrial from '../delete-trial';
 import { TrialStatusLabels } from '@/app/constants/constants';
 import EditTrialData from '../edit-trial-data';
+import ErrorComponent from '@/app/components/error-component';
 
 type Props = {
     params: { id: string }
@@ -48,16 +49,11 @@ const EditTrial = async(props: Props) => {
 
   if (!trial) {
     return (
-      <div className="flex justify-center items-center w-full">
-        <div className="flex flex-col p-2">
-          <span className="text-2xl text-red-600">
-            Error!
-          </span>
-          <span className="text-xl">
-              This trial does not exists.
-          </span>
-        </div>
-      </div>
+      <ErrorComponent>
+        <span>
+        This trial does not exists.
+        </span>
+      </ErrorComponent>
     );
   }
 

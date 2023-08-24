@@ -7,6 +7,7 @@ import { TURNS_COLOR } from '@/app/constants/constants';
 import ScatterPlot from '@/app/components/plots/scatterplot';
 import { Database, TrialItemWithCriteria } from '@/types/database.types';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import ErrorComponent from '@/app/components/error-component';
 
 type Props = {
     show: boolean
@@ -61,20 +62,15 @@ const TrialEndGraphs = (props: Props) => {
   const criteriaValues = Object.values(criteriaMap);
   if (criteriaValues.length !== 2) {
     return (
-      <div className="flex justify-center items-center w-full">
-        <div className="flex flex-col p-2">
-          <span className="text-2xl text-red-600">
-        Error!
-          </span>
-          <span className="text-xl">
+      <ErrorComponent>
+        <span className="text-xl">
         In order to use this component, you MUST have EXACTLY TWO criteria.
-            <br/>
+          <br/>
         It appears that you have {criteriaValues.length} criteria instead.
-            <br/>
+          <br/>
         Please contact a developer!
-          </span>
-        </div>
-      </div>
+        </span>
+      </ErrorComponent>
     );
   }
 
