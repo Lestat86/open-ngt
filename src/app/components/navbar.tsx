@@ -2,6 +2,9 @@ import Link from 'next/link';
 import React from 'react';
 import Header from './Header';
 import LogoutButton from './Header/logout-button';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/types/database.types';
+import { cookies } from 'next/headers';
 
 interface IRoutes {
     name: string
@@ -27,12 +30,26 @@ const routes: IRoutes[] = [
   },
 ];
 
-const NavBar = () => {
+const NavBar = async() => {
+  const supabase = createServerComponentClient<Database>({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const allRoutes:IRoutes[] = [ ...routes ];
+
+  if (session && session.user.user_metadata.isAdmin) {
+    allRoutes.push({
+      name: 'Users',
+      path: '/users',
+    });
+  }
+
   return (
     <div className="flex flex-col w-40 h-screen px-4 bg-blue-700 text-white justify-between">
       <div className="flex flex-col">
         <Header />
-        {routes.map(({ name, path }) => (
+        {allRoutes.map(({ name, path }) => (
           <Link key={path} href={path}>{name}</Link>
         ))}
       </div>

@@ -35,6 +35,7 @@ export const API_URLS = {
   DELETE_ITEM:                     'api/trial-items/delete-item',
   EDIT_TRIAL_NAME:                 'api/trials/edit-trial-name',
   EDIT_TRIAL_MEASURES_VALUES:      'api/trial-measures/update-measures-values',
+  ADD_USER:                        'api/users/add-user',
 };
 
 export const NEXT_URL = process.env.NEXT_PUBLIC_HOST_URL;
