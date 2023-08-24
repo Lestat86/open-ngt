@@ -10,6 +10,7 @@ import TrialPartecipantsTable from './trial-partecipants-table';
 import ReferenceTrialParams from '@/app/(trial_execution)/runs/[id]/controller/graphs-container/turn-end-graphs/reference-params';
 import DeleteTrial from '../delete-trial';
 import { TrialStatusLabels } from '@/app/constants/constants';
+import EditTrialData from '../edit-trial-data';
 
 type Props = {
     params: { id: string }
@@ -66,6 +67,7 @@ const EditTrial = async(props: Props) => {
         {/* @ts-expect-error fix this later */}
         {trial.name} ({TrialStatusLabels[trial.status]})
         <ReferenceTrialParams measures={measures ?? []} />
+        <EditTrialData trial={trial} currentMeasures={measures ?? []} />
       </span>
 
       <div className="flex items-center py-1 mt-4">
