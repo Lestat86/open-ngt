@@ -3,6 +3,7 @@
 import ClientDataGrid from '@/app/components/client-data-grid';
 import { User } from '@supabase/supabase-js';
 import React from 'react';
+import DeleteUser from './delete-user';
 
 type Props = {
     rows: User[]
@@ -62,6 +63,18 @@ const columns = [
 
       return (
         <span>{isAdmin}</span>
+      );
+    },
+  },
+  {
+    key:   'delete_user',
+    name:  '',
+    width: 80,
+    renderCell(props: IRowProps) {
+      const user = props.row;
+
+      return (
+        <DeleteUser userId={user.id} />
       );
     },
   },
