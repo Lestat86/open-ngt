@@ -50,17 +50,19 @@ const TurnEndGraphs = (props: Props) => {
                     : <FaRegCircleXmark className="ml-2 text-2xl text-red-600" />
                 }
               </div>
-              <div className="flex my-4 w-full">
+              <div className="flex my-4 w-full border border-solid p-1">
                 {Object.entries(questionValue).map(([ criteriaId, turnsValues ]) => {
                   const itemStats = questionItem[Number(criteriaId)];
                   const datasets = Object.values(turnsValues as ICriteriaTurn);
 
                   return (
-                    <div className="flex flex-col mx-2 w-full" key={`criteria_${criteriaId}`}>
+                    <div className="flex flex-col mx-2 w-full border-r p-2" key={`criteria_${criteriaId}`}>
                       <StatsHeader itemStats={itemStats} />
-                      <Histogram datasets={datasets}
-                        labels={labels} key={`histo_${questionId}_${criteriaId}`}
-                        title={criteriaMap[criteriaId]} />
+                      <div className="w-[90%]">
+                        <Histogram datasets={datasets}
+                          labels={labels} key={`histo_${questionId}_${criteriaId}`}
+                          title={criteriaMap[criteriaId]} />
+                      </div>
                     </div>
                   );
                 })}

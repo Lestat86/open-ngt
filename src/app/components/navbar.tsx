@@ -53,7 +53,7 @@ const NavBar = async() => {
   }
 
   return (
-    <div className="flex flex-col w-40 h-screen px-4 bg-sky-400 text-white justify-between">
+    <div className="flex flex-col w-40 h-screen px-4 bg-[#212121] text-white justify-between">
       <div className="flex flex-col">
         <Header />
         {allRoutes.map(({ name, path, icon }) => (

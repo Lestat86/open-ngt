@@ -92,34 +92,46 @@ const EditTrialData = (props: Props) => {
       <div
         className="absolute top-0 left-0 bottom-0 left-0 flex justify-center items-center h-full w-full bg-gray-900/75 overflow-hidden">
         <div className="p-4 flex flex-col justify-center items-center bg-white text-black">
-          <form onSubmit={onSubmit} className="flex flex-col justify-between p-8 items-center">
+          <div className="text-xl mt-4 flex items-center justify-center font-semibold">
+          Edit trial data:
+          </div>
+          <form onSubmit={onSubmit} className="flex flex-col justify-between p-4 items-center">
+            <label className="block font-semibold" htmlFor="trialName">
+              Trial Name
+            </label>
             <input placeholder="Trial Name"
               {...register('trialName',
                 { required: true, minLength: { value: 2, message: 'name too small' } })}
-              className={`max-w-[90%] p-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
+              className={`p-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
 
-            {currentMeasures.map((current) => (
-              <div className="p-2" key={current.measure_id}>
-                {/* @ts-expect-error ts is wrong about this */}
-                <input hidden {...register(`measures.${current.measure_id}.id`)}
-                  type="number"
-                  value={current.measure_id} />
-                {/* @ts-expect-error ts is wrong about this */}
-                <input hidden {...register(`measures.${current.measure_id}.rowId`)}
-                  type="number"
-                  value={current.id} />
-                {/* @ts-expect-error ts is wrong about this */}
-                <input placeholder={`${current.measures?.measure_name} threshold`} {...register(`measures.${current.measure_id}.value`)}
-                  type="number"
-                  step="0.01"
-                  className={`max-w-[90%] p-1 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
-              </div>
-            ))}
-            <div className="flex p-2">
-              <input type="submit" value="Edit" className="cursor-pointer p-1 mt-10 button-primary" />
-              <button onClick={toggleCreating} className="cursor-pointer p-1 mt-10">
+            <div className="mt-4">
+              {currentMeasures.map((current) => (
+                <div className="p-2" key={current.measure_id}>
+                  {/* @ts-expect-error ts is wrong about this */}
+                  <input hidden {...register(`measures.${current.measure_id}.id`)}
+                    type="number"
+                    value={current.measure_id} />
+                  <label className="block font-semibold" htmlFor={`measures.${current.measure_id}.value`}>
+                    {current.measures?.measure_name}
+                  </label>
+                  {/* @ts-expect-error ts is wrong about this */}
+                  <input hidden {...register(`measures.${current.measure_id}.rowId`)}
+                    type="number"
+                    value={current.id} />
+                  {/* @ts-expect-error ts is wrong about this */}
+                  <input placeholder={`${current.measures?.measure_name} threshold`} {...register(`measures.${current.measure_id}.value`)}
+                    type="number"
+                    step="0.01"
+                    className={`p-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
+                </div>
+              ))}
+
+              <div className="flex p-2 items-center justify-center mt-10 w-full">
+                <input type="submit" value="Edit" className="p-1 mr-4 button-primary" />
+                <button onClick={toggleCreating} className="cursor-pointer p-1x">
               Close
-              </button>
+                </button>
+              </div>
             </div>
           </form>
         </div>

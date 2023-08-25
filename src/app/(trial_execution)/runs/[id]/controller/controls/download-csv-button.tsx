@@ -3,6 +3,7 @@
 import { API_URLS, NEXT_URL } from '@/app/constants/constants';
 import { downloadFile } from '@/app/utils/misc';
 import React from 'react';
+import { FaFileCsv } from 'react-icons/fa6';
 
 type Props = {
     currentStatus: number
@@ -28,8 +29,9 @@ const DownloadCsvButton = (props: Props) => {
   };
 
   return (
-    <button onClick={getCSV} className="button-primary my-2">
+    <button onClick={getCSV} className="button-primary my-2 flex">
         Download results
+      <FaFileCsv className="ml-2" />
     </button>
   );
 };

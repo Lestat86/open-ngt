@@ -153,7 +153,7 @@ const TrialEndGraphs = (props: Props) => {
       </div>
       <div className="w-[70%]">
         <Histogram datasets={Object.values(histoDatasets)}
-          labels={questionLabels} title={'yep'} />
+          labels={questionLabels} title={'Questions histogram'} />
       </div>
     </div>
   );

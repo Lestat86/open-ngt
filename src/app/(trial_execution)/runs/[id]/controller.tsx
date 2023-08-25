@@ -9,6 +9,7 @@ import React, { useEffect } from 'react';
 import Controls from './controller/controls';
 import GraphsContainer from './controller/graphs-container';
 import { ITrialMeasureWithName } from '@/types/misc';
+import ReferenceTrialParams from './controller/graphs-container/turn-end-graphs/reference-params';
 
 type Props = {
     trial: Trials
@@ -99,6 +100,9 @@ const ControllerUI = (props: Props) => {
   }
 
   const split = trial.id.split('-');
+  const shortName = `${split[3]}-${trial.progressive}`;
+
+  console.log(shortName);
 
   const getMissingPartecipants = () => {
     const total = partecipants.length;
@@ -111,17 +115,36 @@ const ControllerUI = (props: Props) => {
 
   return (
     <div className="flex flex-col w-full h-full overflow-y-hidden">
-      <div>RunTrial {split[3]}</div>
-      <div>{trial?.name}</div>
-      {/* @ts-expect-error fix this later */}
-      <div>Status {TrialStatusLabels[trial.status]}</div>
-      <div>Current turn: {trial.turn}</div>
+      <div className="flex items-center justify-between p-4 shadow-lg border border-solid">
+        <div className="flex flex-col ">
+          <div className="text-4xl font-semibold">{trial?.name}</div>
+          <div className="flex items-center mt-2">
+            <div className="text-xl semibold">
+            Current status:
+              <span className="text-lg font-semibold ml-2">
+                {/* @ts-expect-error fix this later */}
+                {TrialStatusLabels[trial.status]}
+              </span>
+            </div>
+            <div className="flex text-lg ml-10">
+              Current turn:
+              <div className="font-semibold ml-2">
+                {trial.turn}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <ReferenceTrialParams measures={measures} />
+        </div>
+      </div>
+
       <div className="flex w-full h-[90%]">
-        <div className="flex flex-col w-1/4">
+        <div className="flex flex-col w-[20%] mt-4 border border-solid shadow-lg p-4">
           <Controls status={trial.status} trialId={trial.id}
             allSubmitted={allSubmitted} turn={trial.turn ?? 0} />
           <div className="mt-32">
-            <div>
+            <div className="text-lg font-semibold">
                 Missing: {getMissingPartecipants()}
             </div>
             <TrialPartecipantsTable rows={partecipants} showStatus />

@@ -106,6 +106,9 @@ const ManagePartecipants = (props: Props) => {
     <>
       <Modal show={showModal} closeFun={toggleCreating}>
         <div className="flex flex-col p-4">
+          <div className="text-xl flex items-center justify-center font-semibold">
+          Manage partecipants:
+          </div>
           <div className="flex py-2 items-center justify-center">
             <button className="button-primary mx-2" onClick={() => addPartecipants()}>
                             Add one
@@ -116,7 +119,11 @@ const ManagePartecipants = (props: Props) => {
             </button>
           </div>
 
-          <div className="flex flex-col justify-between p-8 items-center">
+          <div className="flex flex-col justify-between mt-10 items-center">
+            <div className="text-lg flex items-center justify-center font-semibold">
+              Bulk operations:
+            </div>
+
             <input placeholder="Bulk partecipants"
               type="number" min={0}
               onChange={handleChange}

@@ -48,42 +48,49 @@ const AddUser = () => {
       <div
         className="absolute top-0 left-0 bottom-0 left-0 flex justify-center items-center h-full w-full bg-gray-900/75 overflow-hidden">
         <div className="p-4 flex flex-col justify-center items-center bg-white text-black">
+          <div className="text-xl mt-4 flex items-center justify-center">
+          Add new user:
+          </div>
           <form onSubmit={onSubmit} className="flex flex-col justify-between p-8 items-center">
-            <input placeholder="Name"
-              {...register('name',
-                { required: true, minLength: { value: 2, message: 'name too small' } })}
-              className={`max-w-[90%] p-2 border-solid border-2 ${nameOk ? 'border-gray-300' : 'border-red-600'}`} />
-            <input placeholder="Surname"
-              {...register('surname',
-                { required: true, minLength: { value: 2, message: 'surname too small' } })}
-              className={`max-w-[90%] p-2 border-solid border-2 ${surnameOk ? 'border-gray-300' : 'border-red-600'}`} />
-            <input placeholder="Email"
-              {...register('email',
-                {
+            <div className="flex my-4">
+              <input placeholder="Name"
+                {...register('name',
+                  { required: true, minLength: { value: 2, message: 'name too small' } })}
+                className={`p-2 border-solid border-2 ${nameOk ? 'border-gray-300' : 'border-red-600'}`} />
+              <input placeholder="Surname"
+                {...register('surname',
+                  { required: true, minLength: { value: 2, message: 'surname too small' } })}
+                className={`ml-2 p-2 border-solid border-2 ${surnameOk ? 'border-gray-300' : 'border-red-600'}`} />
+            </div>
+            <div className="flex">
+              <input placeholder="Email"
+                {...register('email',
+                  {
                   // eslint-disable-next-line no-control-regex
-                  pattern: new RegExp("([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"),
-                })}
-              type="email"
-              className={`max-w-[90%] p-2 border-solid border-2 ${emailOk ? 'border-gray-300' : 'border-red-600'}`} />
-            <input placeholder="Password"
-              {...register('password',
-                {
-                  required:  true,
-                  minLength: { value: 2, message: 'password too small' },
-                  maxLength: { value: 16, message: 'password too long' },
-                })}
-              type="password"
-              className={`max-w-[90%] p-2 border-solid border-2 ${passwordOk ? 'border-gray-300' : 'border-red-600'}`} />
-            <div className="flex items-center w-full p-8">
+                    pattern: new RegExp("([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"),
+                  })}
+                type="email"
+                className={`p-2 border-solid border-2 ${emailOk ? 'border-gray-300' : 'border-red-600'}`} />
+              <input placeholder="Password"
+                {...register('password',
+                  {
+                    required:  true,
+                    minLength: { value: 2, message: 'password too small' },
+                    maxLength: { value: 16, message: 'password too long' },
+                  })}
+                type="password"
+                className={`ml-2 p-2 border-solid border-2 ${passwordOk ? 'border-gray-300' : 'border-red-600'}`} />
+            </div>
+            <div className="flex items-center w-full mt-4 ml-1">
               <label htmlFor="isAdmin" className="mr-2">Admin?</label>
               <input placeholder="isAdmin?"
                 {...register('isAdmin')}
                 type="checkbox"
-                className={'max-w-[90%] p-2 border-solid border-2 border-gray-300'} />
+                className={'p-2 border-solid border-2 border-gray-300'} />
             </div>
-            <div className="flex p-2">
-              <input type="submit" value="Edit" className="cursor-pointer p-1 mt-10 button-primary" />
-              <button onClick={toggleCreating} className="cursor-pointer p-1 mt-10">
+            <div className="flex p-2 mt-4">
+              <input type="submit" value="Edit" className="button-primary" />
+              <button onClick={toggleCreating} className="cursor-pointer ml-4">
               Close
               </button>
             </div>

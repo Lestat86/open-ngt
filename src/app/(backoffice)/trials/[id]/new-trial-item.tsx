@@ -79,38 +79,46 @@ const NewTrialItem = (props: Props) => {
   return (
     <>
       <Modal show={isCreating} closeFun={toggleCreating}>
-        <form onSubmit={onSubmit} className="flex flex-col justify-between items-center p-8">
-          <input placeholder="Item Text"
-            {...register('itemText',
-              { required: true, minLength: { value: 2, message: 'text too small' } })}
-            className={`p-1 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
+        <div className="flex flex-col">
+          <div className="text-xl mt-4 flex items-center justify-center font-semibold">
+          New Trial Item:
+          </div>
+          <form onSubmit={onSubmit} className="flex flex-col justify-between items-center p-8">
+            <input placeholder="Item Text"
+              {...register('itemText',
+                { required: true, minLength: { value: 2, message: 'text too small' } })}
+              className={`p-1 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
 
-          {props.criteria.map((current) => {
-            const criteriaError = errors.criteria?.[current.id];
-            const minValueError = !!criteriaError?.minValue;
-            const maxValueError = !!criteriaError?.maxValue;
+            <div className="mt-4">
 
-            return (
-              <div className="p-2" key={current.id}>
-                <input hidden
-                  {...register(`criteria.${current.id}.id`)}
-                  type="number"
-                  value={current.id} />
+              {props.criteria.map((current) => {
+                const criteriaError = errors.criteria?.[current.id];
+                const minValueError = !!criteriaError?.minValue;
+                const maxValueError = !!criteriaError?.maxValue;
 
-                <input placeholder={`${current.criteria_name} min value`}
-                  {...register(`criteria.${current.id}.minValue`, { required: true })}
-                  type="number"
-                  className={`max-w-[90%] p-1 m-2 border-solid border-2 ${!minValueError ? 'border-gray-300' : 'border-red-600'}`} />
+                return (
+                  <div className="p-2" key={current.id}>
+                    <input hidden
+                      {...register(`criteria.${current.id}.id`)}
+                      type="number"
+                      value={current.id} />
 
-                <input placeholder={`${current.criteria_name} max value`}
-                  {...register(`criteria.${current.id}.maxValue`, { required: true })}
-                  type="number"
-                  className={`max-w-[90%] p-1 m-2 border-solid border-2 ${!maxValueError ? 'border-gray-300' : 'border-red-600'}`} />
-              </div>
-            );
-          })}
-          <input type="submit" value="Create" className="cursor-pointer p-1 button-primary" />
-        </form>
+                    <input placeholder={`${current.criteria_name} min value`}
+                      {...register(`criteria.${current.id}.minValue`, { required: true })}
+                      type="number"
+                      className={`p-1 mt-2 mr-1 border-solid border-2 ${!minValueError ? 'border-gray-300' : 'border-red-600'}`} />
+
+                    <input placeholder={`${current.criteria_name} max value`}
+                      {...register(`criteria.${current.id}.maxValue`, { required: true })}
+                      type="number"
+                      className={`p-1 mt-2 mr-1 border-solid border-2 ${!maxValueError ? 'border-gray-300' : 'border-red-600'}`} />
+                  </div>
+                );
+              })}
+            </div>
+            <input type="submit" value="Create" className="p-1 mt-8 button-primary" />
+          </form>
+        </div>
       </Modal>
 
       <button className="button-primary" onClick={toggleCreating} >

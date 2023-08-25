@@ -24,8 +24,9 @@ const TrialsTable = (props: Props) => {
 
   const columns = [
     {
-      key:  'created_at',
-      name: 'Created At',
+      key:   'created_at',
+      name:  'Created At',
+      width: '10%',
       renderCell(statusProps: IRowProps) {
         const value = statusProps.row.created_at;
         const dateValue = new Date(value!);
@@ -40,8 +41,9 @@ const TrialsTable = (props: Props) => {
       name: 'Name',
     },
     {
-      key:  'status',
-      name: 'Status',
+      key:   'status',
+      name:  'Status',
+      width: '10%',
       renderCell(statusProps: IRowProps) {
         const value = statusProps.row.status;
 
@@ -52,8 +54,9 @@ const TrialsTable = (props: Props) => {
       },
     },
     {
-      key:  'edit_trial',
-      name: '',
+      key:   'edit_trial',
+      name:  '',
+      width: 80,
       renderCell(editProps: IRowProps) {
         const trial = editProps.row as Trials;
 
@@ -65,8 +68,9 @@ const TrialsTable = (props: Props) => {
       },
     },
     {
-      key:  'run_trial',
-      name: '',
+      key:   'run_trial',
+      name:  '',
+      width: 80,
       renderCell(runProps: IRowProps) {
         const trial = runProps.row as Trials;
 
@@ -82,7 +86,7 @@ const TrialsTable = (props: Props) => {
   ];
 
   return (
-    <ClientDataGrid columns={columns} rows={props.rows} emptyMessage="no trials!" />
+    <ClientDataGrid columns={columns} rows={props.rows} emptyMessage="no trials!"/>
   );
 };
 

@@ -37,9 +37,8 @@ const getColumns = (
   status: TrialStatus,
 ) => {
   const baseColumns = [
-    { key:   'item_text',
-      name:  'Text',
-      width: 'max-content',
+    { key:  'item_text',
+      name: 'Text',
       // @ts-expect-error fix this when the library updates
       renderEditCell({ row, onRowChange, onClose }) {
         const disabled = status !== TrialStatus.CREATED && status !== TrialStatus.STARTED;
@@ -83,8 +82,9 @@ const getColumns = (
 
   const criteriaCols = criteria.map((current) => [
     {
-      key:  `${current.id}_minValue`,
-      name: `${current.criteria_name} Min Value`,
+      key:   `${current.id}_minValue`,
+      name:  `${current.criteria_name} Min Value`,
+      width: '15%',
       renderCell(props: CriteriaCellProps) {
         const associatedCriteria = props.row.trial_item_with_criteria
           .find((item) => item.criteria_id === current.id);
@@ -99,8 +99,9 @@ const getColumns = (
       },
     },
     {
-      key:  `${current.id}_maxValue`,
-      name: `${current.criteria_name} Max Value`,
+      key:   `${current.id}_maxValue`,
+      name:  `${current.criteria_name} Max Value`,
+      width: '15%',
       renderCell(props: CriteriaCellProps) {
         const associatedCriteria = props.row.trial_item_with_criteria
           .find((item) => item.criteria_id === current.id);
@@ -119,8 +120,9 @@ const getColumns = (
 
   const additionalCols = [
     {
-      key:  'delete_item',
-      name: '',
+      key:   'delete_item',
+      name:  '',
+      width: 80,
       renderCell(deleteProps: DeleteCellProps) {
         return (
           <DeleteTrialItem itemId={deleteProps.row.id} currentStatus={status} />

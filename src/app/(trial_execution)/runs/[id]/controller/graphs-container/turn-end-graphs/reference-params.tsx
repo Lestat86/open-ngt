@@ -15,13 +15,21 @@ const ReferenceTrialParams = (props: Props) => {
     .find((measure) => measure.measures?.measure_name === MEASURES_NAMES.IQR);
 
   return (
-    <div className="flex text-xl p-2 items-center">
+    <div className="flex flex-col text-xl p-2">
       Reference params:
-      <div className="p-2">
-        {MEASURES_NAMES.STDEV} {targetDevStd?.score}
-      </div>
-      <div className="p-2">
-        {MEASURES_NAMES.IQR} {targetIQR?.score}
+      <div className="flex">
+        <div className="flex mr-2">
+          <div className="font-semibold italic mr-2">
+            {MEASURES_NAMES.STDEV}
+          </div>
+          {targetDevStd?.score}
+        </div>
+        <div className="flex mr-2">
+          <div className="font-semibold italic mr-2">
+            {MEASURES_NAMES.IQR}
+          </div>
+          {targetIQR?.score}
+        </div>
       </div>
     </div>
   );

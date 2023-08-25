@@ -48,7 +48,7 @@ const StandByIndicator = (props: Props) => {
   }
 
   return (
-    <div className="flex justify-center items-center w-full h-full">
+    <div className="flex justify-center items-center w-full h-full p-4 mt-4 border border-solid shadow-lg">
       <div className="flex flex-col justify-center items-center">
         <Icon className="text-6xl" />
         <span className="text-3xl">{message}</span>

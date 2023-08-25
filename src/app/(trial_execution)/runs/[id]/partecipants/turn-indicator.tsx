@@ -3,7 +3,7 @@ import React from 'react';
 
 type Props = {
     turn: number
-    currentStatus: number
+    currentStatus: TrialStatus
 }
 
 const TurnIndicator = (props: Props) => {
@@ -14,8 +14,11 @@ const TurnIndicator = (props: Props) => {
   }
 
   return (
-    <div className="text-xl mb-4">
-            Turn: {turn}
+    <div className="text-2xl flex items-center">
+            Turn:
+      <div className="font-semibold ml-1">
+        {turn}
+      </div>
     </div>
   );
 };

@@ -62,28 +62,36 @@ const AddTrial = (props: Props) => {
   return (
     <>
       <Modal show={isCreating} closeFun={toggleCreating}>
-        <form onSubmit={onSubmit} className="flex flex-col justify-between p-8 items-center">
-          <input placeholder="Trial Name"
-            {...register('trialName',
-              { required: true, minLength: { value: 2, message: 'name too small' } })}
-            className={`max-w-[90%] p-1 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
+        <div className="flex flex-col">
+          <div className="text-xl mt-4 flex items-center justify-center font-semibold">
+          New Trial:
+          </div>
+          <form onSubmit={onSubmit} className="flex flex-col justify-between p-8 items-center">
+            <input placeholder="Trial Name"
+              {...register('trialName',
+                { required: true, minLength: { value: 2, message: 'name too small' } })}
+              className={`p-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
 
-          {props.measures.map((current) => (
-            <div className="p-2" key={current.id}>
-              <input hidden
-                {...register(`measures.${current.id}.id`)}
-                type="number"
-                value={current.id} />
-              <input placeholder={`${current.measure_name} threshold`}
-                {...register(`measures.${current.id}.value`)}
-                type="number"
-                step="0.01"
-                className={`max-w-[90%] p-1 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
+            <div className="mt-4">
+
+              {props.measures.map((current) => (
+                <div className="mt-2" key={current.id}>
+                  <input hidden
+                    {...register(`measures.${current.id}.id`)}
+                    type="number"
+                    value={current.id} />
+                  <input placeholder={`${current.measure_name} threshold`}
+                    {...register(`measures.${current.id}.value`)}
+                    type="number"
+                    step="0.01"
+                    className={`p-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
+                </div>
+              ))}
             </div>
-          ))}
 
-          <input type="submit" value="Create" className="cursor-pointer p-1 mt-10 button-primary" />
-        </form>
+            <input type="submit" value="Create" className="cursor-pointer p-1 mt-10 button-primary" />
+          </form>
+        </div>
       </Modal>
 
       <button className="button-primary"

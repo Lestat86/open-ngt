@@ -43,7 +43,9 @@ const Users = async() => {
 
   return (
     <div className="flex flex-col">
-      <AddUser />
+      <div className="flex items-center py-1">
+        <AddUser />
+      </div>
       <UsersTable rows={users} />
     </div>
   );

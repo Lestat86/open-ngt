@@ -30,8 +30,10 @@ const Measures = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="text-2xl">Measures</div>
-      <DataGrid columns={columns} rows={measures ?? []} />
+      <div className="text-4xl font-semibold">Measures</div>
+      <div className="shadow-lg">
+        <DataGrid columns={columns} rows={measures ?? []} className="mt-8 styled-table"/>
+      </div>
     </div>
   );
 };

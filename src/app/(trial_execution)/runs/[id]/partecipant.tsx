@@ -8,7 +8,6 @@ import TrialItemsForm from './partecipants/items-form';
 import Header from './partecipants/header';
 import { TrialStatus } from '@/app/constants/constants';
 import { useRouter } from 'next/navigation';
-import TurnIndicator from './partecipants/turn-indicator';
 import StandByIndicator from './partecipants/stand-by-indicator';
 import { getParsedAnswers, getStats, isItemOk } from '@/app/utils/items';
 
@@ -78,7 +77,7 @@ const PartecipantUI = (props: Props) => {
         const itemStat = itemsSummary[current.id];
         const itemOk = isItemOk(Object.values(itemStat));
 
-        if (!itemOk) {
+        if (itemOk) {
           return false;
         }
         // in order to avoid false positive, we check that a certain question has
@@ -132,12 +131,15 @@ const PartecipantUI = (props: Props) => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="text-4xl">
-                Trial: {trial.name}
+      <div className="flex items-center text-4xl p-4 border border-solid shadow-lg">
+                Trial:
+        <div className="text-3xl italic ml-2">
+          {trial.name}
+        </div>
       </div>
       <Header storeKey={keyId} storedUser={storedUser}
-        storeUserFun={setStoredUser} errorFun={setHasError} />
-      <TurnIndicator turn={turn} currentStatus={trial.status} />
+        storeUserFun={setStoredUser} errorFun={setHasError}
+        turn={turn} currentStatus={trial.status}/>
       <StandByIndicator partecipant={partecipant} currentStatus={trial.status} />
       <TrialItemsForm items={items!} show={showItems} turn={turn} partecipantId={partecipant?.id} />
     </div>

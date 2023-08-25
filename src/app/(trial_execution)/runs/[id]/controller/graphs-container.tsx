@@ -6,9 +6,9 @@ import { Database, TrialPartecipant } from '@/types/database.types';
 import { ITrialAnswerWithCriteriaAndText, ITrialMeasureWithName } from '@/types/misc';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import React, { useCallback, useEffect, useState } from 'react';
-import ReferenceTrialParams from './graphs-container/turn-end-graphs/reference-params';
 import TurnEndGraphs from './graphs-container/turn-end-graphs';
 import TrialEndGraphs from './graphs-container/trial-end-graphs';
+import Filler from './graphs-container/filler';
 
 type Props = {
     currentStatus: number
@@ -59,18 +59,26 @@ const GraphsContainer = (props: Props) => {
     };
   }, [ getData, supabase, trialId ]);
 
+  const isTurnEnd = currentStatus === TrialStatus.TURN_ENDED;
+  const isTrialEnd = currentStatus === TrialStatus.COMPLETED;
+
+  if (!isTrialEnd && !isTurnEnd) {
+    return (
+      <div className="flex flex-col mt-4 ml-4 items-center justify-center w-full overflow-y-auto shadow-lg border border-solid">
+        <Filler />
+      </div>
+    );
+  }
+
   if (!answers) {
     return null;
   }
 
   const { parsedData, criteriaMap, questionMap } = getParsedAnswers(answers);
   const itemsSummary = getStats(parsedData, measures);
-  const isTurnEnd = currentStatus === TrialStatus.TURN_ENDED;
-  const isTrialEnd = currentStatus === TrialStatus.COMPLETED;
 
   return (
-    <div className="flex flex-col p-2 w-full h-full overflow-y-auto">
-      <ReferenceTrialParams measures={measures} />
+    <div className="flex flex-col p-4 w-full h-[98%] overflow-y-auto shadow-lg border border-solid">
       <TurnEndGraphs show={isTurnEnd} parsedData={parsedData} criteriaMap={criteriaMap}
         questionMap={questionMap} itemsSummary={itemsSummary} partecipants={partecipants}/>
       <TrialEndGraphs show={isTrialEnd} criteriaMap={criteriaMap}

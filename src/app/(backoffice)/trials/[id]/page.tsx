@@ -13,6 +13,7 @@ import { TrialStatus, TrialStatusLabels } from '@/app/constants/constants';
 import EditTrialData from '../edit-trial-data';
 import ErrorComponent from '@/app/components/error-component';
 import DownloadCsvButton from '@/app/(trial_execution)/runs/[id]/controller/controls/download-csv-button';
+import GoToTrial from './got-to-trial';
 
 type Props = {
     params: { id: string }
@@ -60,28 +61,31 @@ const EditTrial = async(props: Props) => {
 
   return (
     <div className="flex flex-col h-full overflow-y-auto">
-      <span className="text-4xl">
+      <span className="text-4xl font-semibold">
         {/* @ts-expect-error fix this later */}
         {trial.name} ({TrialStatusLabels[trial.status]})
-        <ReferenceTrialParams measures={measures ?? []} />
+      </span>
+      <div className="flex justify-between my-1">
         <EditTrialData trial={trial} currentMeasures={measures ?? []}
           currentStatus={trial.status} />
         <DownloadCsvButton currentStatus={trial.status} showIfInStatus={TrialStatus.COMPLETED}
           trialId={trial.id} />
-      </span>
+        <DeleteTrial trialId={trialId} currentStatus={trial.status} />
+        <GoToTrial trialId={trial.id} currentStatus={trial.status} />
+      </div>
+      <ReferenceTrialParams measures={measures ?? []} />
 
-      <div className="flex items-center py-1 mt-4">
+      <div className="flex items-center justify-between py-1 mt-2 w-full">
         <span className="text-2xl mr-2">
           {`This trial has ${trialItemsWithCriteria?.length} items`}
         </span>
         <NewTrialItem trialId={trialId} criteria={criteria ?? []} currentStatus={trial.status} />
-        <DeleteTrial trialId={trialId} currentStatus={trial.status} />
       </div>
 
       <TrialItemsTable rows={trialItemsWithCriteria ?? []} criteria={criteria ?? []}
         status={trial.status}/>
 
-      <div className="flex items-center py-1 mt-4">
+      <div className="flex items-center justify-between py-1 mt-4">
         <span className="text-2xl mr-2">
           {`This trial has ${trialPartecipants?.length} partecipants`}
         </span>

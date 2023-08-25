@@ -86,13 +86,13 @@ const TrialItemsForm = (props: Props) => {
   }
 
   return (
-    <div className="w-full overflow-y-auto">
+    <div className="w-full overflow-y-auto mt-4 border border-solid shadow-lg">
       <form onSubmit={onSubmit}
         className="flex flex-col justify-between items-center p-8">
         {items.map((current) => {
           return (
-            <div key={current.id} className="w-full flex flex-col py-4">
-              <span>{current.item_text}</span>
+            <div key={current.id} className="w-full flex flex-col border border-solid p-2 mb-4">
+              <span className="text-xl font-semibold italic">{current.item_text}</span>
               <input hidden
                 {...register(`answers.${current.id}.itemId`)}
                 type="number"
@@ -105,7 +105,7 @@ const TrialItemsForm = (props: Props) => {
 
                   return (
                     <div className="flex flex-col w-2/5 mt-4" key={name}>
-                      <label htmlFor={name}>{text}</label>
+                      <label htmlFor={name} className="text-sm italic">{text}</label>
                       <input {...register(`answers.${current.id}.criteria.${criteria.criteria_id!}.score`)}
                         type="range" list={datalistId}
                         min={criteria.min_value} max={criteria.max_value} step={1} />

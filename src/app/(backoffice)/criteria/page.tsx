@@ -30,8 +30,10 @@ const Criteria = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="text-2xl">Criteria</div>
-      <DataGrid columns={columns} rows={criteria ?? []} />
+      <div className="text-4xl font-semibold">Criteria</div>
+      <div className="shadow-lg">
+        <DataGrid columns={columns} rows={criteria ?? []} className="mt-8 styled-table"/>
+      </div>
     </div>
   );
 };

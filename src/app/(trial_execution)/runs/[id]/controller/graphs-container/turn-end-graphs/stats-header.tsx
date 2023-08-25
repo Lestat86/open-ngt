@@ -1,3 +1,4 @@
+import { twoDecimals } from '@/app/utils/items';
 import { IItemStat } from '@/types/misc';
 import React from 'react';
 
@@ -8,9 +9,9 @@ type Props = {
 const StatsHeader = (props: Props) => {
   const stats = props.itemStats;
 
-  const stdev = stats.stdev;
-  const mean = stats.mean;
-  const iqr = stats.iqr;
+  const stdev = twoDecimals(stats.stdev);
+  const mean = twoDecimals(stats.mean);
+  const iqr = twoDecimals(stats.iqr);
 
   const itemOk = stats.stdevOk && stats.iqrOk;
 

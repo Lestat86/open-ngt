@@ -33,7 +33,7 @@ const Controls = (props: Props) => {
 
   return (
     <div className="flex flex-col">
-      <div className="text-2xl">
+      <div className="text-2xl font-semibold">
                 Controls
       </div>
       <StatusButton currentStatus={status}
