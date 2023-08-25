@@ -97,7 +97,7 @@ const AddUser = () => {
   return (
     <button className="button-primary"
       onClick={toggleCreating}>
-            Edit trial data
+            Add user
       <FaPlus className="ml-2" />
     </button>
   );
