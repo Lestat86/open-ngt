@@ -24,7 +24,7 @@ const DownloadCsvButton = (props: Props) => {
 
     const csvData = await response.json();
 
-    await downloadFile(new Blob([ csvData ]), 'p.csv');
+    await downloadFile(new Blob([ csvData ]), `${trialId}.csv`);
   };
 
   return (

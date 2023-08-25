@@ -9,9 +9,10 @@ import ManagePartecipants from './manage-partecipants';
 import TrialPartecipantsTable from './trial-partecipants-table';
 import ReferenceTrialParams from '@/app/(trial_execution)/runs/[id]/controller/graphs-container/turn-end-graphs/reference-params';
 import DeleteTrial from '../delete-trial';
-import { TrialStatusLabels } from '@/app/constants/constants';
+import { TrialStatus, TrialStatusLabels } from '@/app/constants/constants';
 import EditTrialData from '../edit-trial-data';
 import ErrorComponent from '@/app/components/error-component';
+import DownloadCsvButton from '@/app/(trial_execution)/runs/[id]/controller/controls/download-csv-button';
 
 type Props = {
     params: { id: string }
@@ -65,6 +66,8 @@ const EditTrial = async(props: Props) => {
         <ReferenceTrialParams measures={measures ?? []} />
         <EditTrialData trial={trial} currentMeasures={measures ?? []}
           currentStatus={trial.status} />
+        <DownloadCsvButton currentStatus={trial.status} showIfInStatus={TrialStatus.COMPLETED}
+          trialId={trial.id} />
       </span>
 
       <div className="flex items-center py-1 mt-4">
