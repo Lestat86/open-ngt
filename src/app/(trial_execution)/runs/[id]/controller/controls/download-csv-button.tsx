@@ -1,6 +1,6 @@
 'use client';
 
-import { API_URLS, NEXT_URL } from '@/app/constants/constants';
+import { API_URLS, NEXT_URL, TrialStatus } from '@/app/constants/constants';
 import { downloadFile } from '@/app/utils/misc';
 import React from 'react';
 import { FaFileCsv } from 'react-icons/fa6';
@@ -26,6 +26,11 @@ const DownloadCsvButton = (props: Props) => {
     const csvData = await response.json();
 
     await downloadFile(new Blob([ csvData ]), `${trialId}.csv`);
+
+    await fetch(`${NEXT_URL}/${API_URLS.TRIAL_STATUS}`, {
+      method: 'post',
+      body:   JSON.stringify({ trialId, status: TrialStatus.EXPORTED }),
+    });
   };
 
   return (
