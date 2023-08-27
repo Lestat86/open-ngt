@@ -83,7 +83,8 @@ const EditTrialData = (props: Props) => {
 
   const isValid = errors.trialName === undefined;
 
-  if (currentStatus !== TrialStatus.CREATED && currentStatus !== TrialStatus.STARTED) {
+  if (currentStatus === TrialStatus.COMPLETED || currentStatus === TrialStatus.EXPORTED
+    || currentStatus === TrialStatus.TURN_ENDED) {
     return null;
   }
 
