@@ -1,3 +1,4 @@
+import { MathScalarType } from 'mathjs';
 import { Criteria, TrialItem, TrialItemWithCriteria, TrialItemsAnswers, TrialMeasures } from './database.types';
 
 export type IGenericColumn = {
@@ -64,6 +65,8 @@ export interface IItemStat {
     stdev: number
     stdevOk: boolean
     mean: number
+    median: number
+    mode: MathScalarType
     iqr: number
     iqrOk: boolean
 }

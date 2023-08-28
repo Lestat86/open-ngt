@@ -1,5 +1,5 @@
 import { getIqr } from '@/app/utils/misc';
-import { mean, std } from 'mathjs';
+import { mean, median, mode, std } from 'mathjs';
 
 import { ICriteriaMap, IItemStat, IItemSummary, IParsedAnswer, IQuestionMap, ITrialAnswerWithCriteriaAndText, ITrialMeasureWithName } from '@/types/misc';
 import { MEASURES_NAMES, TURNS_COLOR } from '../constants/constants';
@@ -77,6 +77,8 @@ export const getStats = (parsedData:IParsedAnswer, measures:ITrialMeasureWithNam
 
         questionSummary[Number(criteriaKey)] = {
           mean:    mean(lastTurn.data),
+          median:  median(...lastTurn.data),
+          mode:    mode(lastTurn.data),
           stdev,
           stdevOk: stdev <= (targetDevStd?.score ?? 0),
           iqr,
