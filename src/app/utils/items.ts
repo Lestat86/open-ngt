@@ -90,8 +90,12 @@ export const getStats = (parsedData:IParsedAnswer, measures:ITrialMeasureWithNam
   return itemSummary;
 };
 
+export const areStatsOk = (itemStat:IItemStat) => {
+  return itemStat.stdevOk && itemStat.iqrOk;
+};
+
 export const isItemOk = (itemStats:IItemStat[]) => {
-  return itemStats.every((current) => current.stdevOk && current.iqrOk);
+  return itemStats.every((current) => areStatsOk(current));
 };
 
 export function twoDecimals(value:number) {

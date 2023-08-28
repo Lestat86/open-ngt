@@ -61,7 +61,7 @@ const TurnEndGraphs = (props: Props) => {
                       <div className="w-[90%]">
                         <Histogram datasets={datasets}
                           labels={labels} key={`histo_${questionId}_${criteriaId}`}
-                          title={criteriaMap[criteriaId]} />
+                          title={criteriaMap[criteriaId]} legend={true} />
                       </div>
                     </div>
                   );

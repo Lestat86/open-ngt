@@ -49,6 +49,11 @@ export const TURNS_COLOR = {
   4: '#2d34d7',
 };
 
+export const TRIAL_END_GRAPHS_COLOR = {
+  ok:    '#13c256',
+  notOk: '#e82923',
+};
+
 export const MEASURES_NAMES = {
   STDEV: 'STDEV',
   IQR:   'IQR',

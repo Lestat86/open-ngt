@@ -73,7 +73,6 @@ const GraphsContainer = (props: Props) => {
   if (!answers) {
     return null;
   }
-
   const { parsedData, criteriaMap, questionMap } = getParsedAnswers(answers);
   const itemsSummary = getStats(parsedData, measures);
 
@@ -82,7 +81,7 @@ const GraphsContainer = (props: Props) => {
       <TurnEndGraphs show={isTurnEnd} parsedData={parsedData} criteriaMap={criteriaMap}
         questionMap={questionMap} itemsSummary={itemsSummary} partecipants={partecipants}/>
       <TrialEndGraphs show={isTrialEnd} criteriaMap={criteriaMap}
-        itemsSummary={itemsSummary} trialId={trialId}/>
+        itemsSummary={itemsSummary} trialId={trialId} answers={answers} />
     </div>
   );
 };

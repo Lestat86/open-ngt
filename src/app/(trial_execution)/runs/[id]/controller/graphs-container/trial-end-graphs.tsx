@@ -1,19 +1,21 @@
 'use client';
 
 import Histogram from '@/app/components/plots/histogram';
-import { ICartesianPoints, IChartDataset, ICriteriaMap, ICriteriaTurnStats, IItemSummary } from '@/types/misc';
+import { ICartesianPoints, IChartDataset, ICriteriaMap, ICriteriaTurnStats, IItemSummary, ITrialAnswerWithCriteriaAndText } from '@/types/misc';
 import React, { useEffect, useState } from 'react';
-import { TURNS_COLOR } from '@/app/constants/constants';
+import { TRIAL_END_GRAPHS_COLOR } from '@/app/constants/constants';
 import ScatterPlot from '@/app/components/plots/scatterplot';
 import { Database, TrialItemWithCriteria } from '@/types/database.types';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import ErrorComponent from '@/app/components/error-component';
+import { areStatsOk } from '@/app/utils/items';
 
 type Props = {
     show: boolean
     criteriaMap: ICriteriaMap
     itemsSummary: IItemSummary
     trialId: string
+    answers: ITrialAnswerWithCriteriaAndText[]
 }
 
 interface ICriteriaMinMax {
@@ -28,7 +30,7 @@ interface IHistoDataset {
 }
 
 const TrialEndGraphs = (props: Props) => {
-  const { show, criteriaMap, itemsSummary, trialId } = props;
+  const { show, criteriaMap, itemsSummary, trialId, answers } = props;
 
   const [ itemsWithCriteria, setItemsWithCriteria ] = useState<TrialItemWithCriteria[] | null>();
 
@@ -117,18 +119,21 @@ const TrialEndGraphs = (props: Props) => {
 
     scatterValues.push(newScatter);
 
-    Object.entries(current).forEach(([ criteriaId, itemStat ], idxInner) => {
+    Object.entries(current).forEach(([ criteriaId, itemStat ]) => {
+      const color = areStatsOk(itemStat) ? TRIAL_END_GRAPHS_COLOR.ok
+        : TRIAL_END_GRAPHS_COLOR.notOk;
+
       if (!histoDatasets[Number(criteriaId)]) {
         histoDatasets[Number(criteriaId)] = {
           label:           criteriaMap[criteriaId]!,
           data:            [ itemStat.mean ],
-          // @ts-expect-error fix this later
-          borderColor:     TURNS_COLOR[idxInner + 1],
-          // @ts-expect-error fix this later
-          backgroundColor: TURNS_COLOR[idxInner + 1],
+          borderColor:     [ color ],
+          backgroundColor: [ color ],
         };
       } else {
         histoDatasets[Number(criteriaId)].data.push(itemStat.mean);
+        (histoDatasets[Number(criteriaId)].borderColor as string[]).push(color);
+        (histoDatasets[Number(criteriaId)].backgroundColor as string []).push(color);
       }
     });
   });
@@ -144,16 +149,34 @@ const TrialEndGraphs = (props: Props) => {
   const maxX = criteriaMinMaxValues[0].max;
   const maxY = criteriaMinMaxValues[1].max;
 
+  const itemsText = new Set<string>();
+
+  answers.forEach((current) => itemsText.add(current.trial_item!.item_text));
+
   return (
-    <div className="flex flex-col w-full h-full overflow-y-auto items-center">
-      <div className="w-[70%]">
+    <div className="flex w-full items-center">
+      <div className="w-[80%] flex flex-col h-full overflow-y-auto ">
         <ScatterPlot dataPoints={scatterValues} labels={questionLabels} title={'Items means'}
           minX={minX} minY={minY} maxX={maxX} maxY={maxY}
           xLabel={criteriaValues[0]!} yLabel={criteriaValues[1]!} />
+        {
+          Object.values(histoDatasets).map((currentCriteria) => (
+            <Histogram datasets={[ currentCriteria ]} key={currentCriteria.label}
+              labels={questionLabels} title={currentCriteria.label} legend={false}/>
+          ))
+        }
       </div>
-      <div className="w-[70%]">
-        <Histogram datasets={Object.values(histoDatasets)}
-          labels={questionLabels} title={'Questions histogram'} />
+      <div className="flex flex-col ml-4 h-full">
+        <div className="text-xl font-semibold">
+            Items:
+        </div>
+        <ul className="italic">
+          {[ ...itemsText ].map((current, idx) => (
+            <li className="flex" key={`current_${idx}`}>
+              {questionLabels[idx]}: {current}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

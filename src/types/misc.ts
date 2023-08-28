@@ -23,8 +23,8 @@ export interface ICartesianPoints {
 export interface IChartDataset {
     label: string
     data: number[]
-    borderColor: string
-    backgroundColor: string
+    borderColor: string | string[]
+    backgroundColor: string | string[]
 }
 
 export interface ITrialAnswerWithCriteriaAndText extends TrialItemsAnswers {

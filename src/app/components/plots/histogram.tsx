@@ -12,6 +12,7 @@ import { Bar } from 'react-chartjs-2';
 import { IChartDataset } from '@/types/misc';
 
 type Props = {
+    legend: boolean
     title?: string
     labels: string[]
     datasets: IChartDataset[]
@@ -27,12 +28,13 @@ ChartJS.register(
 );
 
 const Histogram = (props: Props) => {
-  const { title, labels, datasets } = props;
+  const { legend, title, labels, datasets } = props;
 
   const options = {
     responsive: true,
     plugins:    {
       legend: {
+        display:  legend,
         position: 'top' as const,
       },
       title: {
