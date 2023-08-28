@@ -75,16 +75,16 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "trial_criteria_defaults_criteria_id_fkey";
-            columns: ["criteria_id"];
-            referencedRelation: "criteria";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trial_criteria_defaults_criteria_id_fkey';
+            columns: ['criteria_id'];
+            referencedRelation: 'criteria';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "trial_criteria_defaults_trial_id_fkey";
-            columns: ["trial_id"];
-            referencedRelation: "trials";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trial_criteria_defaults_trial_id_fkey';
+            columns: ['trial_id'];
+            referencedRelation: 'trials';
+            referencedColumns: ['id'];
           }
         ];
       };
@@ -109,10 +109,10 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "trial_item_trial_id_fkey";
-            columns: ["trial_id"];
-            referencedRelation: "trials";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trial_item_trial_id_fkey';
+            columns: ['trial_id'];
+            referencedRelation: 'trials';
+            referencedColumns: ['id'];
           }
         ];
       };
@@ -143,16 +143,16 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "trial_item_with_criteria_criteria_id_fkey";
-            columns: ["criteria_id"];
-            referencedRelation: "criteria";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trial_item_with_criteria_criteria_id_fkey';
+            columns: ['criteria_id'];
+            referencedRelation: 'criteria';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "trial_item_with_criteria_trial_item_id_fkey";
-            columns: ["trial_item_id"];
-            referencedRelation: "trial_item";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trial_item_with_criteria_trial_item_id_fkey';
+            columns: ['trial_item_id'];
+            referencedRelation: 'trial_item';
+            referencedColumns: ['id'];
           }
         ];
       };
@@ -186,22 +186,22 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "trial_items_answers_criteria_id_fkey";
-            columns: ["criteria_id"];
-            referencedRelation: "criteria";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trial_items_answers_criteria_id_fkey';
+            columns: ['criteria_id'];
+            referencedRelation: 'criteria';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "trial_items_answers_partecipant_id_fkey";
-            columns: ["partecipant_id"];
-            referencedRelation: "trial_partecipant";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trial_items_answers_partecipant_id_fkey';
+            columns: ['partecipant_id'];
+            referencedRelation: 'trial_partecipant';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "trial_items_answers_trial_item_id_fkey";
-            columns: ["trial_item_id"];
-            referencedRelation: "trial_item";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trial_items_answers_trial_item_id_fkey';
+            columns: ['trial_item_id'];
+            referencedRelation: 'trial_item';
+            referencedColumns: ['id'];
           }
         ];
       };
@@ -229,16 +229,16 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "trial_measures_measure_id_fkey";
-            columns: ["measure_id"];
-            referencedRelation: "measures";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trial_measures_measure_id_fkey';
+            columns: ['measure_id'];
+            referencedRelation: 'measures';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "trial_measures_trial_id_fkey";
-            columns: ["trial_id"];
-            referencedRelation: "trials";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trial_measures_trial_id_fkey';
+            columns: ['trial_id'];
+            referencedRelation: 'trials';
+            referencedColumns: ['id'];
           }
         ];
       };
@@ -269,10 +269,10 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "trial_partecipant_trial_id_fkey";
-            columns: ["trial_id"];
-            referencedRelation: "trials";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trial_partecipant_trial_id_fkey';
+            columns: ['trial_id'];
+            referencedRelation: 'trials';
+            referencedColumns: ['id'];
           }
         ];
       };
@@ -312,10 +312,10 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "trials_owner_id_fkey";
-            columns: ["owner_id"];
-            referencedRelation: "users";
-            referencedColumns: ["id"];
+            foreignKeyName: 'trials_owner_id_fkey';
+            columns: ['owner_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
           }
         ];
       };
@@ -337,55 +337,55 @@ export interface Database {
 
 // Schema: public
 // Tables
-export type Criteria = Database["public"]["Tables"]["criteria"]["Row"];
-export type InsertCriteria = Database["public"]["Tables"]["criteria"]["Insert"];
-export type UpdateCriteria = Database["public"]["Tables"]["criteria"]["Update"];
+export type Criteria = Database['public']['Tables']['criteria']['Row'];
+export type InsertCriteria = Database['public']['Tables']['criteria']['Insert'];
+export type UpdateCriteria = Database['public']['Tables']['criteria']['Update'];
 
-export type Measures = Database["public"]["Tables"]["measures"]["Row"];
-export type InsertMeasures = Database["public"]["Tables"]["measures"]["Insert"];
-export type UpdateMeasures = Database["public"]["Tables"]["measures"]["Update"];
+export type Measures = Database['public']['Tables']['measures']['Row'];
+export type InsertMeasures = Database['public']['Tables']['measures']['Insert'];
+export type UpdateMeasures = Database['public']['Tables']['measures']['Update'];
 
 export type TrialCriteriaDefaults =
-  Database["public"]["Tables"]["trial_criteria_defaults"]["Row"];
+  Database['public']['Tables']['trial_criteria_defaults']['Row'];
 export type InsertTrialCriteriaDefaults =
-  Database["public"]["Tables"]["trial_criteria_defaults"]["Insert"];
+  Database['public']['Tables']['trial_criteria_defaults']['Insert'];
 export type UpdateTrialCriteriaDefaults =
-  Database["public"]["Tables"]["trial_criteria_defaults"]["Update"];
+  Database['public']['Tables']['trial_criteria_defaults']['Update'];
 
-export type TrialItem = Database["public"]["Tables"]["trial_item"]["Row"];
+export type TrialItem = Database['public']['Tables']['trial_item']['Row'];
 export type InsertTrialItem =
-  Database["public"]["Tables"]["trial_item"]["Insert"];
+  Database['public']['Tables']['trial_item']['Insert'];
 export type UpdateTrialItem =
-  Database["public"]["Tables"]["trial_item"]["Update"];
+  Database['public']['Tables']['trial_item']['Update'];
 
 export type TrialItemWithCriteria =
-  Database["public"]["Tables"]["trial_item_with_criteria"]["Row"];
+  Database['public']['Tables']['trial_item_with_criteria']['Row'];
 export type InsertTrialItemWithCriteria =
-  Database["public"]["Tables"]["trial_item_with_criteria"]["Insert"];
+  Database['public']['Tables']['trial_item_with_criteria']['Insert'];
 export type UpdateTrialItemWithCriteria =
-  Database["public"]["Tables"]["trial_item_with_criteria"]["Update"];
+  Database['public']['Tables']['trial_item_with_criteria']['Update'];
 
 export type TrialItemsAnswers =
-  Database["public"]["Tables"]["trial_items_answers"]["Row"];
+  Database['public']['Tables']['trial_items_answers']['Row'];
 export type InsertTrialItemsAnswers =
-  Database["public"]["Tables"]["trial_items_answers"]["Insert"];
+  Database['public']['Tables']['trial_items_answers']['Insert'];
 export type UpdateTrialItemsAnswers =
-  Database["public"]["Tables"]["trial_items_answers"]["Update"];
+  Database['public']['Tables']['trial_items_answers']['Update'];
 
 export type TrialMeasures =
-  Database["public"]["Tables"]["trial_measures"]["Row"];
+  Database['public']['Tables']['trial_measures']['Row'];
 export type InsertTrialMeasures =
-  Database["public"]["Tables"]["trial_measures"]["Insert"];
+  Database['public']['Tables']['trial_measures']['Insert'];
 export type UpdateTrialMeasures =
-  Database["public"]["Tables"]["trial_measures"]["Update"];
+  Database['public']['Tables']['trial_measures']['Update'];
 
 export type TrialPartecipant =
-  Database["public"]["Tables"]["trial_partecipant"]["Row"];
+  Database['public']['Tables']['trial_partecipant']['Row'];
 export type InsertTrialPartecipant =
-  Database["public"]["Tables"]["trial_partecipant"]["Insert"];
+  Database['public']['Tables']['trial_partecipant']['Insert'];
 export type UpdateTrialPartecipant =
-  Database["public"]["Tables"]["trial_partecipant"]["Update"];
+  Database['public']['Tables']['trial_partecipant']['Update'];
 
-export type Trials = Database["public"]["Tables"]["trials"]["Row"];
-export type InsertTrials = Database["public"]["Tables"]["trials"]["Insert"];
-export type UpdateTrials = Database["public"]["Tables"]["trials"]["Update"];
+export type Trials = Database['public']['Tables']['trials']['Row'];
+export type InsertTrials = Database['public']['Tables']['trials']['Insert'];
+export type UpdateTrials = Database['public']['Tables']['trials']['Update'];
