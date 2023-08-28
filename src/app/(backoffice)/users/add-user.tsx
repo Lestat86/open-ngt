@@ -89,7 +89,7 @@ const AddUser = () => {
                 className={'p-2 border-solid border-2 border-gray-300'} />
             </div>
             <div className="flex p-2 mt-4">
-              <input type="submit" value="Edit" className="button-primary" />
+              <input type="submit" value="Add" className="button-primary" />
               <button onClick={toggleCreating} className="cursor-pointer ml-4">
               Close
               </button>

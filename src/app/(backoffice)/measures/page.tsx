@@ -13,8 +13,7 @@ const columns = [
   { key: 'measure_name', name: 'Name' },
 ];
 
-// eslint-disable-next-line no-import-assign
-const Measures = () => {
+const MeasuresList = () => {
   const [ measures, setMeasures ] = useState<Measures[] | null>();
 
   const supabase = createClientComponentClient<Database>();
@@ -38,4 +37,4 @@ const Measures = () => {
   );
 };
 
-export default Measures;
+export default MeasuresList;

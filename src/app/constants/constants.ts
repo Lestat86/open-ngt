@@ -38,6 +38,8 @@ export const API_URLS = {
   ADD_USER:                        'api/users/add-user',
   DELETE_USER:                     'api/users/delete-user',
   ADD_CRITERIA_DEFAULTS:           'api/trial-criteria-defaults',
+  ADD_CRITERIA:                    'api/criteria/add-criteria',
+  DELETE_CRITERIA:                 'api/criteria/delete-criteria',
 };
 
 export const NEXT_URL = process.env.NEXT_PUBLIC_HOST_URL;
