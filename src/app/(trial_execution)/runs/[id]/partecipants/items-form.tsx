@@ -16,7 +16,7 @@ type Props = {
 type NewTrialItemData = {
     answers: {
         itemId: number
-        criteria: { criteriaId: number, score: string }[]
+        criteria: { criteriaId: number, score: number }[]
     }[]
 }
 
@@ -43,6 +43,7 @@ const TrialItemsForm = (props: Props) => {
   const {
     register,
     handleSubmit,
+    setValue,
   } = useForm<NewTrialItemData>();
 
   const onSubmit = handleSubmit(async(data) => {
@@ -84,6 +85,12 @@ const TrialItemsForm = (props: Props) => {
       <div>No questions!</div>
     );
   }
+
+  items.forEach((item) => {
+    item.trial_item_with_criteria?.forEach((criteria) => {
+      setValue(`answers.${item.id}.criteria.${criteria.criteria_id!}.score`, criteria.min_value);
+    });
+  });
 
   return (
     <div className="w-full overflow-y-auto mt-4 border border-solid shadow-lg">
