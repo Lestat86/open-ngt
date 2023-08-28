@@ -3,18 +3,29 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Measures } from '@/types/database.types';
+import { Criteria, Measures } from '@/types/database.types';
 import { FaPlus } from 'react-icons/fa6';
 import Modal from '@/app/components/modal';
 import { API_URLS, NEXT_URL } from '@/app/constants/constants';
 
 type Props = {
     measures: Measures[]
+    criteria: Criteria[]
 }
 
 type NewTrialFormData = {
     trialName: string
-    measures: { id: number, value: number }[]
+    measures: {
+      id: number,
+      value: number,
+      minDefault: number,
+      maxDefault: number
+    }[]
+    criteria: {
+      id: number,
+      minDefault: number,
+      maxDefault: number
+    }[]
 }
 
 const AddTrial = (props: Props) => {
@@ -31,6 +42,7 @@ const AddTrial = (props: Props) => {
   const onSubmit = handleSubmit(async(data) => {
     const name = data.trialName;
     const measures = data.measures;
+    const criteria = data.criteria;
 
     const created = await fetch(`${NEXT_URL}/${API_URLS.TRIALS}`, {
       method: 'put',
@@ -39,7 +51,7 @@ const AddTrial = (props: Props) => {
 
     const newTrial = await created.json();
 
-    const trialMeasures = measures
+    const trialMeasures  = measures
       .filter((current) => current.value !== 0)
       .map((current) => ({
         trial_id:   newTrial.id,
@@ -50,6 +62,20 @@ const AddTrial = (props: Props) => {
     await fetch(`${NEXT_URL}/${API_URLS.TRIAL_MEASURES}`, {
       method: 'put',
       body:   JSON.stringify({ trialMeasures }),
+    });
+
+    const criteriaDefaults  = criteria
+      .filter((current) => current.minDefault !== 0 || current.maxDefault !== 0)
+      .map((current) => ({
+        trial_id:    newTrial.id,
+        criteria_id: current.id,
+        min_default: current.minDefault,
+        max_default: current.maxDefault,
+      }));
+
+    await fetch(`${NEXT_URL}/${API_URLS.ADD_CRITERIA_DEFAULTS}`, {
+      method: 'put',
+      body:   JSON.stringify({ criteriaDefaults }),
     });
 
     router.push(`/trials/${newTrial.id!}`);
@@ -73,7 +99,9 @@ const AddTrial = (props: Props) => {
               className={`p-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
 
             <div className="mt-4">
-
+              <div className="text-xl font-semibold">
+                Measures:
+              </div>
               {props.measures.map((current) => (
                 <div className="mt-2" key={current.id}>
                   <input hidden
@@ -85,6 +113,30 @@ const AddTrial = (props: Props) => {
                     type="number"
                     step="0.01"
                     className={`p-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 flex-col items-center">
+              <div className="text-xl font-semibold ml-2">
+                Criteria:
+              </div>
+              {props.criteria.map((current) => (
+                <div className="flex px-2 items-center mt-2" key={current.id}>
+                  <input placeholder={`${current.criteria_name} min default`}
+                    {...register(`criteria.${current.id}.minDefault`)}
+                    type="number"
+                    step="0.01"
+                    className={`p-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
+                  <input placeholder={`${current.criteria_name} max default`}
+                    {...register(`criteria.${current.id}.maxDefault`)}
+                    type="number"
+                    step="0.01"
+                    className={`p-2 ml-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
+                  <input hidden
+                    {...register(`criteria.${current.id}.id`)}
+                    type="number"
+                    value={current.id} />
                 </div>
               ))}
             </div>

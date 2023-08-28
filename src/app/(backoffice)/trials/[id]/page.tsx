@@ -49,6 +49,11 @@ const EditTrial = async(props: Props) => {
     .select('*, measures(measure_name)')
     .match({ trial_id: trialId });
 
+  const { data: criteriaDefaults } = await supabase
+    .from('trial_criteria_defaults')
+    .select('*')
+    .match({ trial_id: trialId });
+
   if (!trial) {
     return (
       <ErrorComponent>
@@ -79,7 +84,8 @@ const EditTrial = async(props: Props) => {
         <span className="text-2xl mr-2">
           {`This trial has ${trialItemsWithCriteria?.length} items`}
         </span>
-        <NewTrialItem trialId={trialId} criteria={criteria ?? []} currentStatus={trial.status} />
+        <NewTrialItem trialId={trialId} criteria={criteria ?? []}
+          criteriaDefaults={criteriaDefaults ?? []} currentStatus={trial.status} />
       </div>
 
       <TrialItemsTable rows={trialItemsWithCriteria ?? []} criteria={criteria ?? []}
