@@ -37,6 +37,7 @@ export const API_URLS = {
   EDIT_TRIAL_MEASURES_VALUES:      'api/trial-measures/update-measures-values',
   ADD_USER:                        'api/users/add-user',
   DELETE_USER:                     'api/users/delete-user',
+  ADD_CRITERIA_DEFAULTS:           'api/trial-criteria-defaults',
 };
 
 export const NEXT_URL = process.env.NEXT_PUBLIC_HOST_URL;
