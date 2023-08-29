@@ -4,19 +4,19 @@ import React from 'react';
 import { FaPlay } from 'react-icons/fa6';
 
 type Props = {
-    trialId: string
+    shortHash: string
     currentStatus: TrialStatus
 }
 
 const GoToTrial = (props: Props) => {
-  const { trialId, currentStatus } = props;
+  const { shortHash, currentStatus } = props;
 
   if (currentStatus === TrialStatus.COMPLETED) {
     return null;
   }
 
   return (
-    <Link href={`/runs/${trialId}`} className="button-primary">
+    <Link href={`/runs/${shortHash}`} className="button-primary">
         Go to trial <FaPlay className="ml-2"/>
     </Link>
   );

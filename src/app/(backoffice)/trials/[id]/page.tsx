@@ -79,7 +79,7 @@ const EditTrial = async(props: Props) => {
         <DownloadCsvButton currentStatus={trial.status} showIfInStatus={showCsvStatuses}
           trialId={trial.id} />
         <DeleteTrial trialId={trialId} currentStatus={trial.status} />
-        <GoToTrial trialId={trial.id} currentStatus={trial.status} />
+        <GoToTrial shortHash={trial.short_hash!} currentStatus={trial.status} />
       </div>
       <ReferenceTrialParams measures={measures ?? []} />
 

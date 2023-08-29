@@ -79,7 +79,7 @@ const TrialsTable = (props: Props) => {
         }
 
         return (
-          <Link href={`runs/${trial.id}`}><FaPlay /></Link>
+          <Link href={`runs/${trial.short_hash}`}><FaPlay /></Link>
         );
       },
     },

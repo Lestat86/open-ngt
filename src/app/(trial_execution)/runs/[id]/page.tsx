@@ -11,14 +11,14 @@ type Props = {
 }
 
 const RunTrial = async(props: Props) => {
-  const trialId = props.params.id;
+  const shortHash = props.params.id;
 
   const supabase = createServerComponentClient<Database>({ cookies });
 
   const { data: trial } = await supabase
     .from('trials')
     .select()
-    .match({ id: trialId })
+    .match({ short_hash: shortHash })
     .single();
 
   const {
@@ -34,13 +34,13 @@ const RunTrial = async(props: Props) => {
   const { data: trialPartecipants } = await supabase
     .from('trial_partecipant')
     .select()
-    .match({ trial_id: trialId })
+    .match({ trial_id: trial.id })
     .order('id', { ascending: true });
 
   const { data: measures } = await supabase
     .from('trial_measures')
     .select('*, measures(measure_name)')
-    .match({ trial_id: trialId });
+    .match({ trial_id: trial.id });
 
   if (!session) {
     return (

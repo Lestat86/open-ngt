@@ -99,11 +99,6 @@ const ControllerUI = (props: Props) => {
     return null;
   }
 
-  const split = trial.id.split('-');
-  const shortName = `${split[3]}-${trial.progressive}`;
-
-  console.log(shortName);
-
   const getMissingPartecipants = () => {
     const total = partecipants.length;
     const present = partecipants.filter((current) => current.isPresent).length;
