@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '../../types/database.types';
+import Header from './Header';
 
 const Login = () => {
   const [ email, setEmail ] = useState('');
@@ -23,8 +24,9 @@ const Login = () => {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+    <main className="flex min-h-screen flex-col items-center p-24">
+      <Header />
+      <div className="z-10 max-w-5xl w-full items-center justify-between lg:flex">
         <form
           className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
           onSubmit={handleSignIn}
@@ -37,7 +39,7 @@ const Login = () => {
             name="email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
-            placeholder="you@example.com"
+            placeholder="Email address"
           />
           <label className="text-md" htmlFor="password">
                         Password
@@ -50,7 +52,7 @@ const Login = () => {
             value={password}
             placeholder="••••••••"
           />
-          <button className="bg-green-700 rounded px-4 py-2 text-white mb-6">
+          <button className="bg-sky-600 rounded px-4 py-2 text-white mb-6">
                         Sign In
           </button>
         </form>

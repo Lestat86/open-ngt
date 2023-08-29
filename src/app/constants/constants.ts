@@ -40,6 +40,7 @@ export const API_URLS = {
   ADD_CRITERIA_DEFAULTS:           'api/trial-criteria-defaults',
   ADD_CRITERIA:                    'api/criteria/add-criteria',
   DELETE_CRITERIA:                 'api/criteria/delete-criteria',
+  CHANGE_USER_PASSWORD:            'api/users/change-password',
 };
 
 export const NEXT_URL = process.env.NEXT_PUBLIC_HOST_URL;

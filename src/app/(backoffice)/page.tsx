@@ -12,13 +12,15 @@ export default async function Home() {
     return null;
   }
 
+  const user = session.user;
+  const metadata = user.user_metadata;
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <h1>Hello, {session.user.email}</h1>
-        <h1>{session.user.user_metadata.name}</h1>
-        <h1>{session.user.user_metadata.surname}</h1>
-        <h1>{session.user.user_metadata.isAdmin ? 'POWAH' : 'NOPOWAH'}</h1>
+      <div className="z-10 max-w-5xl w-full items-center justify-center font-mono text-sm lg:flex">
+        <div className="text-4xl">
+        Hello, {metadata.name} {metadata.surname} ({user.email})
+        </div>
       </div>
     </main>
   );

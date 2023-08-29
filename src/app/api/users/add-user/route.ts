@@ -45,6 +45,7 @@ export async function PUT(request: Request) {
       isAdmin,
       name,
       surname,
+      needPasswordChange: true,
     },
     email_confirm: true,
   });

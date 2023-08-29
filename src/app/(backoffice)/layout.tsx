@@ -8,6 +8,7 @@ import { cookies } from 'next/headers';
 import Login from '../components/Login';
 import NavBar from '../components/navbar';
 import React from 'react';
+import PasswordChange from '../components/password-change';
 
 const inter = Inter({ subsets: [ 'latin' ] });
 
@@ -31,6 +32,18 @@ export default async function RootLayout(props: Props) {
       <html lang="en">
         <body className={inter.className}>
           <Login />
+        </body>
+      </html >
+    );
+  }
+
+  const needsPwdChange = session.user.user_metadata.needPasswordChange;
+
+  if (needsPwdChange) {
+    return (
+      <html lang="en">
+        <body className={inter.className}>
+          <PasswordChange />
         </body>
       </html >
     );
