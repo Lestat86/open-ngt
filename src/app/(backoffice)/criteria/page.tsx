@@ -9,6 +9,8 @@ import AddCriteria from './add-criteria';
 import { cookies } from 'next/headers';
 import CriteriaTable from './criteria-table';
 
+export const dynamic = 'force-dynamic';
+
 const CriteriaList = async() => {
   const supabase = createServerComponentClient<Database>({ cookies });
 

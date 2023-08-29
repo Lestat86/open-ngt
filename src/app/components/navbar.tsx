@@ -7,6 +7,8 @@ import { cookies } from 'next/headers';
 import NavbarItem from './navbar-item';
 import { FaHouseChimney, FaTableList, FaUsersGear, FaWarehouse } from 'react-icons/fa6';
 
+export const dynamic = 'force-dynamic';
+
 interface IRoutes {
     name: string
     path: string
