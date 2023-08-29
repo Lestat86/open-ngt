@@ -4,7 +4,8 @@ import { Criteria, TrialItem, TrialItemWithCriteria, TrialItemsAnswers, TrialMea
 export type IGenericColumn = {
     key: string
     name: string
-    renderCell?: (props: unknown) => unknown
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    renderCell?: (props: any) => any
 }
 
 export interface HydratedTrialItemWithCriteria extends TrialItemWithCriteria {
