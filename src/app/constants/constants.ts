@@ -45,6 +45,7 @@ export const API_URLS = {
 export const NEXT_URL = process.env.NEXT_PUBLIC_HOST_URL;
 
 export const TURNS_COLOR = {
+  0: '#268c22',
   1: '#34d72d',
   2: '#d02dd7',
   3: '#d7d02d',

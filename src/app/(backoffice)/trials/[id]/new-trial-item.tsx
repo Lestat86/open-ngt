@@ -33,10 +33,15 @@ const NewTrialItem = (props: Props) => {
 
   const router = useRouter();
 
+  const selectedCriteriaIds:number[] = [];
   const defaultCriteria:ICriteriaParams[] = [];
+
   criteriaDefaults.forEach((current) => {
-    defaultCriteria[current.id] = {
-      id:       current.id,
+    const criteriaId = current.criteria_id!;
+    selectedCriteriaIds.push(criteriaId);
+
+    defaultCriteria[criteriaId] = {
+      id:       criteriaId,
       minValue: current.min_default,
       maxValue: current.max_default,
     };
@@ -73,7 +78,13 @@ const NewTrialItem = (props: Props) => {
     const newTrialItem = await created.json();
 
     const trialItemWithCriteria = criteriaValues
-      .filter((current) => current)
+      .filter((current) => {
+        if (current) {
+          return selectedCriteriaIds.includes(current.id);
+        }
+
+        return false;
+      })
       .map((current) => ({
         trial_item_id: newTrialItem.id,
         criteria_id:   current.id,
@@ -114,6 +125,10 @@ const NewTrialItem = (props: Props) => {
             <div className="mt-4">
 
               {criteria.map((current) => {
+                if (!selectedCriteriaIds.includes(current.id)) {
+                  return null;
+                }
+
                 const criteriaError = errors.criteria?.[current.id];
                 const minValueError = !!criteriaError?.minValue;
                 const maxValueError = !!criteriaError?.maxValue;

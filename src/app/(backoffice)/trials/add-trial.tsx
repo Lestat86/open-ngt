@@ -25,6 +25,7 @@ type NewTrialFormData = {
       id: number,
       minDefault: number,
       maxDefault: number
+      selected: boolean
     }[]
 }
 
@@ -36,6 +37,7 @@ const AddTrial = (props: Props) => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<NewTrialFormData>();
 
@@ -43,6 +45,15 @@ const AddTrial = (props: Props) => {
     const name = data.trialName;
     const measures = data.measures;
     const criteria = data.criteria;
+    const selectedCriteria = criteria
+      .filter((current) => current.selected);
+
+    if (selectedCriteria.length === 0) {
+      setError('root', {
+        message: 'Error: at least one criteria must be selected',
+      });
+      return;
+    }
 
     const created = await fetch(`${NEXT_URL}/${API_URLS.TRIALS}`, {
       method: 'put',
@@ -64,8 +75,7 @@ const AddTrial = (props: Props) => {
       body:   JSON.stringify({ trialMeasures }),
     });
 
-    const criteriaDefaults  = criteria
-      .filter((current) => current.minDefault !== 0 || current.maxDefault !== 0)
+    const criteriaDefaults  = selectedCriteria
       .map((current) => ({
         trial_id:    newTrial.id,
         criteria_id: current.id,
@@ -83,7 +93,9 @@ const AddTrial = (props: Props) => {
 
   const toggleCreating = () => setIsCreating(!isCreating);
 
-  const isValid = errors.trialName === undefined;
+  const isValid = errors.trialName === undefined || errors.root;
+
+  const rootErrorMessage = errors.root?.message;
 
   return (
     <>
@@ -123,6 +135,9 @@ const AddTrial = (props: Props) => {
               </div>
               {props.criteria.map((current) => (
                 <div className="flex px-2 items-center mt-2" key={current.id}>
+                  <input {...register(`criteria.${current.id}.selected`)}
+                    type="checkbox"
+                    className={'mr-2 border-solid border-2 border-gray-300'} />
                   <input placeholder={`${current.criteria_name} min default`}
                     {...register(`criteria.${current.id}.minDefault`)}
                     type="number"
@@ -141,6 +156,7 @@ const AddTrial = (props: Props) => {
               ))}
             </div>
 
+            {rootErrorMessage && <span className="text-red-600 mt-2">{rootErrorMessage}</span>}
             <input type="submit" value="Create" className="cursor-pointer p-1 mt-10 button-primary" />
           </form>
         </div>

@@ -31,7 +31,7 @@ const DeleteTrial = (props: Props) => {
   const hideFun = () => setShowModal(false);
 
   if (currentStatus !== TrialStatus.CREATED && currentStatus !== TrialStatus.STARTED
-    && currentStatus !== TrialStatus.COMPLETED) {
+    && currentStatus !== TrialStatus.COMPLETED && currentStatus !== TrialStatus.EXPORTED) {
     return null;
   }
 

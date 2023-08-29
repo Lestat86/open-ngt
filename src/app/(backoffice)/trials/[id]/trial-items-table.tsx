@@ -12,6 +12,7 @@ type Props = {
     rows: TrialItem[]
     criteria: Criteria[]
     status: TrialStatus
+    selectedCriteria: (number | null)[]
 }
 
 interface CriteriaCellProps {
@@ -35,6 +36,7 @@ const getColumns = (
   criteria: Criteria[],
   editFun: (updated:IItemTextRow) => void,
   status: TrialStatus,
+  selectedCriteria: (number | null)[],
 ) => {
   const baseColumns = [
     { key:  'item_text',
@@ -80,42 +82,44 @@ const getColumns = (
       } },
   ];
 
-  const criteriaCols = criteria.map((current) => [
-    {
-      key:   `${current.id}_minValue`,
-      name:  `${current.criteria_name} Min Value`,
-      width: '15%',
-      renderCell(props: CriteriaCellProps) {
-        const associatedCriteria = props.row.trial_item_with_criteria
-          .find((item) => item.criteria_id === current.id);
+  const criteriaCols = criteria
+    .filter((current) => selectedCriteria.includes(current.id))
+    .map((current) => [
+      {
+        key:   `${current.id}_minValue`,
+        name:  `${current.criteria_name} Min Value`,
+        width: '15%',
+        renderCell(props: CriteriaCellProps) {
+          const associatedCriteria = props.row.trial_item_with_criteria
+            .find((item) => item.criteria_id === current.id);
 
-        if (associatedCriteria) {
-          return (
-            <span>{associatedCriteria.min_value}</span>
-          );
-        }
+          if (associatedCriteria) {
+            return (
+              <span>{associatedCriteria.min_value}</span>
+            );
+          }
 
-        return null;
+          return null;
+        },
       },
-    },
-    {
-      key:   `${current.id}_maxValue`,
-      name:  `${current.criteria_name} Max Value`,
-      width: '15%',
-      renderCell(props: CriteriaCellProps) {
-        const associatedCriteria = props.row.trial_item_with_criteria
-          .find((item) => item.criteria_id === current.id);
+      {
+        key:   `${current.id}_maxValue`,
+        name:  `${current.criteria_name} Max Value`,
+        width: '15%',
+        renderCell(props: CriteriaCellProps) {
+          const associatedCriteria = props.row.trial_item_with_criteria
+            .find((item) => item.criteria_id === current.id);
 
-        if (associatedCriteria) {
-          return (
-            <span>{associatedCriteria.max_value}</span>
-          );
-        }
+          if (associatedCriteria) {
+            return (
+              <span>{associatedCriteria.max_value}</span>
+            );
+          }
 
-        return null;
+          return null;
+        },
       },
-    },
-  ])
+    ])
     .reduce((acc, curr) => acc.concat(curr), []);
 
   const additionalCols = [
@@ -149,8 +153,11 @@ const TrialItemsTable = (props: Props) => {
       router.refresh();
     }
   };
+
+  const columns = getColumns(props.criteria, editFun, props.status, props.selectedCriteria);
+
   return (
-    <ClientDataGrid columns={getColumns(props.criteria, editFun, props.status)}
+    <ClientDataGrid columns={columns}
       rows={props.rows} emptyMessage="no items!" />
   );
 };

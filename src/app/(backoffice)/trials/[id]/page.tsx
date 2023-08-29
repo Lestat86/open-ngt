@@ -64,6 +64,9 @@ const EditTrial = async(props: Props) => {
     );
   }
 
+  const selectedCriteria = criteriaDefaults?.map((current) => current.criteria_id);
+  const showCsvStatuses = [ TrialStatus.COMPLETED, TrialStatus.EXPORTED ];
+
   return (
     <div className="flex flex-col h-full overflow-y-auto">
       <span className="text-4xl font-semibold">
@@ -73,7 +76,7 @@ const EditTrial = async(props: Props) => {
       <div className="flex justify-between my-1">
         <EditTrialData trial={trial} currentMeasures={measures ?? []}
           currentStatus={trial.status} />
-        <DownloadCsvButton currentStatus={trial.status} showIfInStatus={TrialStatus.COMPLETED}
+        <DownloadCsvButton currentStatus={trial.status} showIfInStatus={showCsvStatuses}
           trialId={trial.id} />
         <DeleteTrial trialId={trialId} currentStatus={trial.status} />
         <GoToTrial trialId={trial.id} currentStatus={trial.status} />
@@ -89,7 +92,7 @@ const EditTrial = async(props: Props) => {
       </div>
 
       <TrialItemsTable rows={trialItemsWithCriteria ?? []} criteria={criteria ?? []}
-        status={trial.status}/>
+        status={trial.status} selectedCriteria={selectedCriteria ?? []}/>
 
       <div className="flex items-center justify-between py-1 mt-4">
         <span className="text-2xl mr-2">

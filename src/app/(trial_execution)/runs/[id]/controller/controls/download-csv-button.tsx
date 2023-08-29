@@ -7,14 +7,14 @@ import { FaFileCsv } from 'react-icons/fa6';
 
 type Props = {
     currentStatus: number
-    showIfInStatus: number
+    showIfInStatus: TrialStatus[]
     trialId: string
 }
 
 const DownloadCsvButton = (props: Props) => {
   const { currentStatus, showIfInStatus, trialId } = props;
 
-  if (currentStatus !== showIfInStatus) {
+  if (!showIfInStatus.includes(currentStatus)) {
     return null;
   }
 

@@ -4,6 +4,7 @@ import React from 'react';
 import StatusButton from './status-button';
 import { API_URLS, NEXT_URL, TrialStatus } from '@/app/constants/constants';
 import DownloadCsvButton from './controls/download-csv-button';
+import CloseTrialRunButton from './controls/close-trial-run-button';
 
 type Props = {
     status: number
@@ -31,6 +32,8 @@ const Controls = (props: Props) => {
     });
   };
 
+  const showCsvStatuses = [ TrialStatus.COMPLETED, TrialStatus.EXPORTED ];
+
   return (
     <div className="flex flex-col">
       <div className="text-2xl font-semibold">
@@ -56,7 +59,8 @@ const Controls = (props: Props) => {
         showIfInStatus={TrialStatus.TURN_ENDED}
         statusToSet={TrialStatus.COMPLETED} trialId={trialId} />
       <DownloadCsvButton currentStatus={status}
-        showIfInStatus={TrialStatus.COMPLETED} trialId={trialId} />
+        showIfInStatus={showCsvStatuses} trialId={trialId} />
+      <CloseTrialRunButton trialId={trialId} />
     </div>
   );
 };
