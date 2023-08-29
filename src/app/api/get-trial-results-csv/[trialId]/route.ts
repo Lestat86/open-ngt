@@ -4,6 +4,8 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { Parser } from '@json2csv/plainjs';
 
+export const dynamic = 'force-dynamic';
+
 interface IRouteParams {
   params: {
     trialId: string

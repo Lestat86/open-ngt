@@ -15,6 +15,8 @@ import ErrorComponent from '@/app/components/error-component';
 import DownloadCsvButton from '@/app/(trial_execution)/runs/[id]/controller/controls/download-csv-button';
 import GoToTrial from './got-to-trial';
 
+export const dynamic = 'force-dynamic';
+
 type Props = {
     params: { id: string }
 }

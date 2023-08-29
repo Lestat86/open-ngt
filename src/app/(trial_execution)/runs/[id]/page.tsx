@@ -6,6 +6,8 @@ import { cookies } from 'next/headers';
 import PartecipantUI from './partecipant';
 import ControllerUI from './controller';
 
+export const dynamic = 'force-dynamic';
+
 type Props = {
     params: { id: string }
 }

@@ -7,6 +7,8 @@ import AddTrial from './add-trial';
 import TrialsTable from './trials-table';
 import { Database } from '@/types/database.types';
 
+export const dynamic = 'force-dynamic';
+
 const Trials = async() => {
   const supabase = createServerComponentClient<Database>({ cookies });
 

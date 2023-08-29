@@ -12,6 +12,8 @@ import PasswordChange from '../components/password-change';
 
 const inter = Inter({ subsets: [ 'latin' ] });
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title:       'Open NGT',
   description: 'Open NGT platform',

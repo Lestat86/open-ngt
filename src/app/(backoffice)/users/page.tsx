@@ -8,6 +8,7 @@ import { Database } from '@/types/database.types';
 import { cookies } from 'next/headers';
 import ErrorComponent from '@/app/components/error-component';
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 const Users = async() => {
