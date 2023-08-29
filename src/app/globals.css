@@ -18,10 +18,29 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+.button-primary {
+  @apply px-4 py-2 bg-sky-600 text-white text-base font-semibold uppercase flex items-center rounded-md;
+
+  &:hover {
+    @apply bg-sky-400;
+  }
+}
+
+*:disabled {
+  opacity: 0.75;
+}
+
+.styled-table {
+  @apply shadow-lg w-full;
+
+  .rdg-cell {
+    display: flex;
+    align-items: center;
+    width: "100%"
+  }
 }
