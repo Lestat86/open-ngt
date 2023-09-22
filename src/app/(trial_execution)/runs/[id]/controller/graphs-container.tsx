@@ -60,7 +60,8 @@ const GraphsContainer = (props: Props) => {
   }, [ getData, supabase, trialId ]);
 
   const isTurnEnd = currentStatus === TrialStatus.TURN_ENDED;
-  const isTrialEnd = currentStatus === TrialStatus.COMPLETED;
+  const isTrialEnd = currentStatus === TrialStatus.COMPLETED
+  || currentStatus === TrialStatus.EXPORTED;
 
   if (!isTrialEnd && !isTurnEnd) {
     return (
