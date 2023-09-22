@@ -1,4 +1,4 @@
-import { areStatsOk, twoDecimals } from '@/app/utils/items';
+import { twoDecimals } from '@/app/utils/items';
 import { IItemStat } from '@/types/misc';
 import React from 'react';
 
@@ -15,14 +15,15 @@ const StatsHeader = (props: Props) => {
   const mode = stats.mode.toLocaleString();
   const iqr = twoDecimals(stats.iqr);
 
-  const itemOk = areStatsOk(stats);
+  const stdevOk = stats.stdevOk;
+  const iqrOk = stats.iqrOk;
 
   return (
     <div className={'flex justify-between '}>
-      <div className={`p-2 ${itemOk ? 'bg-green-600' : 'bg-red-600'} text-white`}>
+      <div className={`p-2 ${stdevOk ? 'bg-green-600' : 'bg-red-600'} text-white`}>
             Stdev:{stdev}
       </div>
-      <div className={`p-2 ${itemOk ? 'bg-green-600' : 'bg-red-600'} text-white`}>
+      <div className={`p-2 ${iqrOk ? 'bg-green-600' : 'bg-red-600'} text-white`}>
             IQR: {iqr}
       </div>
       <div className={'p-2 font-semibold'}>
