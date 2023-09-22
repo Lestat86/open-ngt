@@ -12,9 +12,20 @@ export const dynamic = 'force-dynamic';
 const Trials = async() => {
   const supabase = createServerComponentClient<Database>({ cookies });
 
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    return null;
+  }
+
+  const user = session.user;
+
   const { data: trials } = await supabase
     .from('trials')
     .select()
+    .match({ owner_id: user.id })
     .order('created_at', { ascending: false });
 
   const { data: measures } = await supabase
