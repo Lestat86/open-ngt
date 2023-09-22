@@ -112,7 +112,7 @@ const AddTrial = (props: Props) => {
 
             <div className="mt-4">
               <div className="text-xl font-semibold">
-                Measures:
+                Measures of dispersion:
               </div>
               {props.measures.map((current) => (
                 <div className="mt-2" key={current.id}>
@@ -141,12 +141,12 @@ const AddTrial = (props: Props) => {
                   <input placeholder={`${current.criteria_name} min default`}
                     {...register(`criteria.${current.id}.minDefault`)}
                     type="number"
-                    step="0.01"
+                    min={1}
                     className={`p-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
                   <input placeholder={`${current.criteria_name} max default`}
                     {...register(`criteria.${current.id}.maxDefault`)}
                     type="number"
-                    step="0.01"
+                    min={1}
                     className={`p-2 ml-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
                   <input hidden
                     {...register(`criteria.${current.id}.id`)}
