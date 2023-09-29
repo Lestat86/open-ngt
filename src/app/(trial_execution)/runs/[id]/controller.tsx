@@ -133,7 +133,7 @@ const ControllerUI = (props: Props) => {
       </div>
 
       <div className="flex w-full h-[90%]">
-        <div className="flex flex-col w-[20%] mt-4 border border-solid shadow-lg p-4">
+        <div className="flex flex-col w-[20%] mt-4 border border-solid shadow-lg px-3 py-2 h-[calc(100%-3rem)] overflow-y-auto">
           <Controls status={trial.status} trialId={trial.id} turn={trial.turn ?? 0} />
           <div className="mt-32">
             <div className="text-lg font-semibold">
