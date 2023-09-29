@@ -29,7 +29,7 @@ const Header = (props: Props) => {
       } else {
         errorFun(true);
       }
-    }).catch((e) => console.log(e));
+    }).catch((e) => console.error(e));
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value);

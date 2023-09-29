@@ -106,8 +106,6 @@ const ControllerUI = (props: Props) => {
     return total - present;
   };
 
-  const allSubmitted = partecipants.every((partecipant) => partecipant.has_submitted);
-
   return (
     <div className="flex flex-col w-full h-full overflow-y-hidden">
       <div className="flex items-center justify-between p-4 shadow-lg border border-solid">
@@ -136,8 +134,7 @@ const ControllerUI = (props: Props) => {
 
       <div className="flex w-full h-[90%]">
         <div className="flex flex-col w-[20%] mt-4 border border-solid shadow-lg p-4">
-          <Controls status={trial.status} trialId={trial.id}
-            allSubmitted={allSubmitted} turn={trial.turn ?? 0} />
+          <Controls status={trial.status} trialId={trial.id} turn={trial.turn ?? 0} />
           <div className="mt-32">
             <div className="text-lg font-semibold">
                 Missing: {getMissingPartecipants()}

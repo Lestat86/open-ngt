@@ -9,12 +9,11 @@ import CloseTrialRunButton from './controls/close-trial-run-button';
 type Props = {
     status: number
     trialId: string
-    allSubmitted: boolean
     turn: number
 }
 
 const Controls = (props: Props) => {
-  const { status, trialId, allSubmitted, turn } = props;
+  const { status, trialId, turn } = props;
 
   const incrementTurn = async() => {
     await fetch(`${NEXT_URL}/${API_URLS.TRIAL_INCREMENT_TURN}`, {
@@ -49,7 +48,6 @@ const Controls = (props: Props) => {
         trialId={trialId} />
       <StatusButton currentStatus={status}
         showIfInStatus={TrialStatus.TURN_STARTED}
-        forceHide={!allSubmitted}
         statusToSet={TrialStatus.TURN_ENDED} trialId={trialId} />
       <StatusButton currentStatus={status}
         showIfInStatus={TrialStatus.TURN_ENDED}
