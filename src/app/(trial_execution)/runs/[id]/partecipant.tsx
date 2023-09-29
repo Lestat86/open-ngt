@@ -10,6 +10,7 @@ import { TrialStatus } from '@/app/constants/constants';
 import { useRouter } from 'next/navigation';
 import StandByIndicator from './partecipants/stand-by-indicator';
 import { getParsedAnswers, getStats, isItemOk } from '@/app/utils/items';
+import ErrorComponent from '@/app/components/error-component';
 
 type Props = {
     trial: Trials
@@ -120,7 +121,13 @@ const PartecipantUI = (props: Props) => {
 
   if (hasError) {
     return (
-      <div>Something went wrong!</div>
+      <ErrorComponent>
+        <span>
+      Something went wrong! Please try to reload the page.
+          <br/>
+      If this persist, please contact a developer
+        </span>
+      </ErrorComponent>
     );
   }
 

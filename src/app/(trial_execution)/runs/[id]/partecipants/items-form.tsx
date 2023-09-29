@@ -1,5 +1,6 @@
 'use client';
 
+import ErrorComponent from '@/app/components/error-component';
 import { API_URLS, NEXT_URL } from '@/app/constants/constants';
 import { HydratedTrialItems } from '@/types/misc';
 import { useRouter } from 'next/navigation';
@@ -82,7 +83,15 @@ const TrialItemsForm = (props: Props) => {
 
   if (!items.length) {
     return (
-      <div>No questions!</div>
+      <div className="w-full h-screen mt-4 border border-solid shadow-lg flex items-center">
+        <ErrorComponent>
+          <span>
+        There seems to be no questions available.
+            <br/>
+        Please report this to the speaker.
+          </span>
+        </ErrorComponent>
+      </div>
     );
   }
 
