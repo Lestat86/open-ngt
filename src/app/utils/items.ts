@@ -70,7 +70,6 @@ export const getTurnHistogram = (answers:ITrialAnswerWithCriteriaAndText[],
 
     const currentCriteria = currentQuestion[answer.criteria_id];
 
-    console.log(criteriaMinMax, answer.criteria_id);
     if (!currentCriteria[answer.turn]) {
       const criteriaMin = criteriaMinMax[answer.criteria_id].min;
       const criteriaMax = criteriaMinMax[answer.criteria_id].max;
