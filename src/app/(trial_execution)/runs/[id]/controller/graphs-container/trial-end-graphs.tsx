@@ -1,7 +1,7 @@
 'use client';
 
 import Histogram from '@/app/components/plots/histogram';
-import { ICartesianPoints, IChartDataset, ICriteriaMap, ICriteriaMinMax, ICriteriaTurnStats, IItemSummary, ITrialAnswerWithCriteriaAndText } from '@/types/misc';
+import { ICartesianPoints, IChartDataset, ICriteriaMap, ICriteriaMinMax, ICriteriaTurnStats, IItemStat, IItemSummary, ITrialAnswerWithCriteriaAndText } from '@/types/misc';
 import React from 'react';
 import { TRIAL_END_GRAPHS_COLOR } from '@/app/constants/constants';
 import { areStatsOk, twoDecimals } from '@/app/utils/items';
@@ -38,10 +38,11 @@ const TrialEndGraphs = (props: Props) => {
 
   const questionLabels = Array.from({ length: itemsLength }, (x, i) => `Item ${i + 1}`);
   const histoDatasets:IHistoDataset = {};
-  const scatterValues:ICartesianPoints[] = [];
+  const scatterOKPoints:ICartesianPoints[] = [];
+  const scatterKOPoints:ICartesianPoints[] = [];
 
   Object.values(itemsSummary).forEach((current:ICriteriaTurnStats, idx) => {
-    const criteriaTurnStats = Object.values(current);
+    const criteriaTurnStats:IItemStat[] = Object.values(current);
     if (showScatter) {
       const newScatter = {
         x:     criteriaTurnStats[0].mean,
@@ -49,7 +50,14 @@ const TrialEndGraphs = (props: Props) => {
         label: questionLabels[idx],
       };
 
-      scatterValues.push(newScatter);
+      const criteria1Ok = areStatsOk(criteriaTurnStats[0]);
+      const criteria2Ok = areStatsOk(criteriaTurnStats[1]);
+
+      if (criteria1Ok && criteria2Ok) {
+        scatterOKPoints.push(newScatter);
+      } else {
+        scatterKOPoints.push(newScatter);
+      }
     }
 
     Object.entries(current).forEach(([ criteriaId, itemStat ]) => {
@@ -103,7 +111,7 @@ const TrialEndGraphs = (props: Props) => {
   return (
     <div className="flex w-full items-center">
       <div className="w-[80%] flex flex-col h-full overflow-y-auto ">
-        <CriteriaScatter show={showScatter} dataPoints={scatterValues}
+        <CriteriaScatter show={showScatter} okPoints={scatterOKPoints} koPoints={scatterKOPoints}
           labels={questionLabels} title={'Criteria scatter plot'}
           minX={minX} minY={minY} maxX={maxX} maxY={maxY}
           meanX={criteriaMeans[0]} meanY={criteriaMeans[1]}

@@ -10,13 +10,14 @@ import {
 import { Scatter } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { ICartesianPoints } from '@/types/misc';
-import { LINES_INDICATORS_PARAMS } from '@/app/constants/constants';
+import { LINES_INDICATORS_PARAMS, TRIAL_END_GRAPHS_COLOR } from '@/app/constants/constants';
 import { isRound } from '@/app/utils/items';
 
 type Props = {
     title?: string
     labels: string[]
-    dataPoints: ICartesianPoints[]
+    okPoints: ICartesianPoints[]
+    koPoints: ICartesianPoints[]
     minX: number
     minY: number
     maxX: number
@@ -30,7 +31,8 @@ type Props = {
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, ChartDataLabels);
 
 const ScatterPlot = (props: Props) => {
-  const { title, labels, dataPoints, minX, minY, maxX, maxY, meanX, meanY, xLabel, yLabel } = props;
+  const { title, labels, okPoints, koPoints, minX, minY, maxX, maxY, meanX,
+    meanY, xLabel, yLabel } = props;
 
   const options = {
     plugins: {
@@ -140,10 +142,16 @@ const ScatterPlot = (props: Props) => {
     labels,
     datasets: [
       {
-        label:                'questions',
-        data:                 dataPoints,
-        backgroundColor:      'rgba(255, 99, 132, 1)',
-        pointBackgroundColor: '#11c240',
+        label:                'Mean values',
+        data:                 okPoints,
+        pointBackgroundColor: TRIAL_END_GRAPHS_COLOR.ok,
+        pointRadius:          7,
+        pointHitRadius:       10,
+      },
+      {
+        label:                'Mean values',
+        data:                 koPoints,
+        pointBackgroundColor: TRIAL_END_GRAPHS_COLOR.notOk,
         pointRadius:          7,
         pointHitRadius:       10,
       },
