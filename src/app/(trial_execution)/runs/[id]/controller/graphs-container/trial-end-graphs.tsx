@@ -1,27 +1,19 @@
 'use client';
 
 import Histogram from '@/app/components/plots/histogram';
-import { ICartesianPoints, IChartDataset, ICriteriaMap, ICriteriaTurnStats, IItemSummary, ITrialAnswerWithCriteriaAndText } from '@/types/misc';
-import React, { useEffect, useState } from 'react';
+import { ICartesianPoints, IChartDataset, ICriteriaMap, ICriteriaMinMax, ICriteriaTurnStats, IItemSummary, ITrialAnswerWithCriteriaAndText } from '@/types/misc';
+import React from 'react';
 import { TRIAL_END_GRAPHS_COLOR } from '@/app/constants/constants';
-import { Database, TrialItemWithCriteria } from '@/types/database.types';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { areStatsOk } from '@/app/utils/items';
+import { areStatsOk, twoDecimals } from '@/app/utils/items';
 import CriteriaScatter from './trial-end-graphs/criteria-scatter';
+import { mean } from 'mathjs';
 
 type Props = {
     show: boolean
     criteriaMap: ICriteriaMap
     itemsSummary: IItemSummary
-    trialId: string
     answers: ITrialAnswerWithCriteriaAndText[]
-}
-
-interface ICriteriaMinMax {
-  [key: number]: {
-    min: number
-    max: number
-  }
+    criteriaMinMax:ICriteriaMinMax
 }
 
 interface IHistoDataset {
@@ -29,24 +21,7 @@ interface IHistoDataset {
 }
 
 const TrialEndGraphs = (props: Props) => {
-  const { show, criteriaMap, itemsSummary, trialId, answers } = props;
-
-  const [ itemsWithCriteria, setItemsWithCriteria ] = useState<TrialItemWithCriteria[] | null>();
-
-  const supabase = createClientComponentClient<Database>();
-
-  useEffect(() => {
-    const getData = async() => {
-      const { data } = await supabase
-        .from('trial_item_with_criteria')
-        .select('*,trial_item!inner(trial_id)')
-        .filter('trial_item.trial_id', 'eq', trialId);
-
-      setItemsWithCriteria(data);
-    };
-
-    getData();
-  }, [ supabase, trialId ]);
+  const { show, criteriaMap, itemsSummary, answers, criteriaMinMax } = props;
 
   if (!show) {
     return null;
@@ -58,33 +33,6 @@ const TrialEndGraphs = (props: Props) => {
 
   const criteriaValues = Object.values(criteriaMap);
   const showScatter = criteriaValues.length === 2;
-
-  const criteriaMinMax:ICriteriaMinMax = {};
-
-  itemsWithCriteria?.forEach((item) => {
-    const criteriaId = item.criteria_id!;
-    const itemMin = item.min_value;
-    const itemMax = item.max_value;
-
-    if (!criteriaMinMax[criteriaId]) {
-      criteriaMinMax[criteriaId] = {
-        min: itemMin,
-        max: itemMax,
-      };
-    } else {
-      const currentElement = criteriaMinMax[criteriaId];
-      const currentMin = currentElement.min;
-      const currentMax = currentElement.max;
-
-      if (currentMin > itemMin) {
-        currentElement.min = itemMin;
-      }
-
-      if (currentMax < itemMax) {
-        currentElement.max = itemMax;
-      }
-    }
-  });
 
   const itemsLength = Object.values(itemsSummary).length;
 
@@ -129,17 +77,28 @@ const TrialEndGraphs = (props: Props) => {
 
   const criteriaMinMaxValues = Object.values(criteriaMinMax);
 
-  let minX, minY, maxX, maxY;
-  if (showScatter) {
-    minX = criteriaMinMaxValues[0].min;
-    minY = criteriaMinMaxValues[1].min;
-    maxX = criteriaMinMaxValues[0].max;
-    maxY = criteriaMinMaxValues[1].max;
-  }
+  const minX = criteriaMinMaxValues[0]?.min;
+  const minY = criteriaMinMaxValues[1]?.min;
+  const maxX = criteriaMinMaxValues[0]?.max;
+  const maxY = criteriaMinMaxValues[1]?.max;
 
   const itemsText = new Set<string>();
 
   answers.forEach((current) => itemsText.add(current.trial_item!.item_text));
+
+  const criteria1value:number[] = [];
+  const criteria2value:number[] = [];
+
+  Object.values(itemsSummary).forEach((current:ICriteriaTurnStats) => {
+    const criteriaStatsValues = Object.values(current);
+
+    criteria1value.push(criteriaStatsValues[0].mean);
+    criteria2value.push(criteriaStatsValues[1].mean);
+  });
+
+  const criteriaMeans:number[] = [];
+  criteriaMeans[0] = twoDecimals(mean(criteria1value));
+  criteriaMeans[1] = twoDecimals(mean(criteria2value));
 
   return (
     <div className="flex w-full items-center">
@@ -147,11 +106,14 @@ const TrialEndGraphs = (props: Props) => {
         <CriteriaScatter show={showScatter} dataPoints={scatterValues}
           labels={questionLabels} title={'Criteria scatter plot'}
           minX={minX} minY={minY} maxX={maxX} maxY={maxY}
+          meanX={criteriaMeans[0]} meanY={criteriaMeans[1]}
           xLabel={criteriaValues[0]!} yLabel={criteriaValues[1]!} />
         {
-          Object.values(histoDatasets).map((currentCriteria) => (
+          Object.values(histoDatasets).map((currentCriteria, idx) => (
             <Histogram datasets={[ currentCriteria ]} key={currentCriteria.label}
-              labels={questionLabels} title={currentCriteria.label} legend={false}/>
+              labels={questionLabels} title={currentCriteria.label}
+              minY={minY} maxY={maxY} meanValue={criteriaMeans[idx]}
+              legend={false}/>
           ))
         }
       </div>

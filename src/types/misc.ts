@@ -74,8 +74,15 @@ export interface IItemStat {
 
 export interface ICriteriaTurnStats {
       [criteria: number]: IItemStat
-  }
+}
 
 export interface IItemSummary {
       [question: number]: ICriteriaTurnStats
-  }
+}
+
+export interface ICriteriaMinMax {
+    [key: number]: {
+      min: number
+      max: number
+    }
+}

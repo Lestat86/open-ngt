@@ -11,12 +11,15 @@ type Props = {
     minY: number
     maxX: number
     maxY: number
+    meanX: number,
+    meanY: number,
     xLabel: string
     yLabel: string
 }
 
 const CriteriaScatter = (props: Props) => {
-  const { show, title, labels, dataPoints, minX, minY, maxX, maxY, xLabel, yLabel } = props;
+  const { show, title, labels, dataPoints, minX, minY, maxX,
+    maxY, meanX, meanY, xLabel, yLabel } = props;
 
   if (!show) {
     return null;
@@ -24,7 +27,7 @@ const CriteriaScatter = (props: Props) => {
 
   return (
     <ScatterPlot dataPoints={dataPoints} labels={labels} title={title}
-      minX={minX} minY={minY} maxX={maxX} maxY={maxY}
+      minX={minX} minY={minY} maxX={maxX} maxY={maxY} meanX={meanX} meanY={meanY}
       xLabel={xLabel} yLabel={yLabel} />
   );
 };

@@ -10,6 +10,8 @@ import {
 import { Scatter } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { ICartesianPoints } from '@/types/misc';
+import { LINES_INDICATORS_PARAMS } from '@/app/constants/constants';
+import { isRound } from '@/app/utils/items';
 
 type Props = {
     title?: string
@@ -18,7 +20,9 @@ type Props = {
     minX: number
     minY: number
     maxX: number
-    maxY: number
+    maxY: number,
+    meanX: number,
+    meanY: number,
     xLabel: string
     yLabel: string
 }
@@ -26,7 +30,7 @@ type Props = {
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, ChartDataLabels);
 
 const ScatterPlot = (props: Props) => {
-  const { title, labels, dataPoints, minX, minY, maxX, maxY, xLabel, yLabel } = props;
+  const { title, labels, dataPoints, minX, minY, maxX, maxY, meanX, meanY, xLabel, yLabel } = props;
 
   const options = {
     plugins: {
@@ -52,6 +56,40 @@ const ScatterPlot = (props: Props) => {
           display: true,
           text:    yLabel,
         },
+        ticks: {
+          stepSize: 0.01,
+          autoSkip: false,
+          // @ts-expect-error problem with react-chartjs-2 types
+          callback(tick) {
+            if (tick === meanY) {
+              return tick;
+            }
+
+            return isRound(tick) ? tick : '';
+          },
+        },
+        grid: {
+          // @ts-expect-error problem with react-chartjs-2 types
+          color(context) {
+            if (context.tick.value === meanY) {
+              return LINES_INDICATORS_PARAMS.COLOR;
+            }
+
+            return ChartJS.defaults.borderColor;
+          },
+          // @ts-expect-error problem with react-chartjs-2 types
+          lineWidth(context) {
+            if (context.tick.value === meanY) {
+              return LINES_INDICATORS_PARAMS.ENPHASIZED_WIDTH;
+            }
+
+            if (!isRound(context.tick.value)) {
+              return 0;
+            }
+
+            return LINES_INDICATORS_PARAMS.NORMAL_WIDTH;
+          },
+        },
       },
       x: {
         max:   maxX,
@@ -59,6 +97,40 @@ const ScatterPlot = (props: Props) => {
         title: {
           display: true,
           text:    xLabel,
+        },
+        ticks: {
+          stepSize: 0.01,
+          autoSkip: false,
+          // @ts-expect-error problem with react-chartjs-2 types
+          callback(tick) {
+            if (tick === meanX) {
+              return tick;
+            }
+
+            return isRound(tick) ? tick : '';
+          },
+        },
+        grid: {
+          // @ts-expect-error problem with react-chartjs-2 types
+          color(context) {
+            if (context.tick.value === meanX) {
+              return LINES_INDICATORS_PARAMS.COLOR;
+            }
+
+            return ChartJS.defaults.borderColor;
+          },
+          // @ts-expect-error problem with react-chartjs-2 types
+          lineWidth(context) {
+            if (context.tick.value === meanX) {
+              return LINES_INDICATORS_PARAMS.ENPHASIZED_WIDTH;
+            }
+
+            if (!isRound(context.tick.value)) {
+              return 0;
+            }
+
+            return LINES_INDICATORS_PARAMS.NORMAL_WIDTH;
+          },
         },
       },
     },

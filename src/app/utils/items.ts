@@ -1,7 +1,7 @@
 import { getIqr } from '@/app/utils/misc';
 import { mean, median, mode, std } from 'mathjs';
 
-import { ICriteriaMap, IItemStat, IItemSummary, IParsedAnswer, IQuestionMap, ITrialAnswerWithCriteriaAndText, ITrialMeasureWithName } from '@/types/misc';
+import { ICriteriaMap, ICriteriaMinMax, IItemStat, IItemSummary, IParsedAnswer, IQuestionMap, ITrialAnswerWithCriteriaAndText, ITrialMeasureWithName } from '@/types/misc';
 import { MEASURES_NAMES, TURNS_COLOR } from '../constants/constants';
 
 export const getParsedAnswers = (answers:ITrialAnswerWithCriteriaAndText[]) => {
@@ -46,6 +46,56 @@ export const getParsedAnswers = (answers:ITrialAnswerWithCriteriaAndText[]) => {
   });
 
   return { parsedData, questionMap, criteriaMap };
+};
+
+export const getTurnHistogram = (answers:ITrialAnswerWithCriteriaAndText[],
+                                 criteriaMinMax:ICriteriaMinMax) => {
+  const parsedData:IParsedAnswer = {};
+
+  // eslint-disable-next-line consistent-return
+  answers.forEach((answer) => {
+    if (answer.criteria_id === null || answer.criteria_id === undefined) {
+      return null;
+    }
+
+    if (!parsedData[answer.trial_item_id]) {
+      parsedData[answer.trial_item_id] = {};
+    }
+
+    const currentQuestion = parsedData[answer.trial_item_id];
+
+    if (!currentQuestion[answer.criteria_id]) {
+      currentQuestion[answer.criteria_id] = {};
+    }
+
+    const currentCriteria = currentQuestion[answer.criteria_id];
+
+    console.log(criteriaMinMax, answer.criteria_id);
+    if (!currentCriteria[answer.turn]) {
+      const criteriaMin = criteriaMinMax[answer.criteria_id].min;
+      const criteriaMax = criteriaMinMax[answer.criteria_id].max;
+      const values = [];
+
+      for (let i = criteriaMin; i <= criteriaMax; i++) {
+        values[i] = 0;
+      }
+
+      currentCriteria[answer.turn] = {
+        label:           `Turn ${answer.turn}`,
+        data:            values,
+        // @ts-expect-error fix this later
+        borderColor:     TURNS_COLOR[answer.turn],
+        // @ts-expect-error fix this later
+        backgroundColor: TURNS_COLOR[answer.turn],
+      };
+    }
+
+    const currentTurn = currentCriteria[answer.turn];
+
+    currentTurn.data[answer.score]++;
+  });
+
+  return parsedData;
 };
 
 export const getStats = (parsedData:IParsedAnswer, measures:ITrialMeasureWithName[]) => {
@@ -100,4 +150,8 @@ export const isItemOk = (itemStats:IItemStat[]) => {
 
 export function twoDecimals(value:number) {
   return Math.round((value + Number.EPSILON) * 100) / 100;
+}
+
+export function isRound(value:number) {
+  return (value % 1) === 0;
 }

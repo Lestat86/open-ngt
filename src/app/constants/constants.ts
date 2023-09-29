@@ -62,3 +62,9 @@ export const MEASURES_NAMES = {
   STDEV: 'STDEV',
   IQR:   'IQR',
 };
+
+export const LINES_INDICATORS_PARAMS = {
+  COLOR:            '#0566ed',
+  NORMAL_WIDTH:     1,
+  ENPHASIZED_WIDTH: 2,
+};
