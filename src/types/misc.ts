@@ -64,12 +64,12 @@ export interface ITrialMeasureWithName extends TrialMeasures {
 
 export interface IItemStat {
     stdev: number
-    stdevOk: boolean
+    stdevOk: boolean | undefined
     mean: number
     median: number
     mode: MathScalarType
     iqr: number
-    iqrOk: boolean
+    iqrOk: boolean | undefined
 }
 
 export interface ICriteriaTurnStats {

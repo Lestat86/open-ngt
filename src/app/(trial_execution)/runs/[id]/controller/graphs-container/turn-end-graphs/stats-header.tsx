@@ -6,6 +6,18 @@ type Props = {
  itemStats: IItemStat
 }
 
+const getMeasureElement = (name:string, isOk?: boolean, value:number) => {
+  if (isOk === undefined) {
+    return null;
+  }
+
+  return (
+    <div className={`p-2 ${isOk ? 'bg-green-600' : 'bg-red-600'} text-white`}>
+      {name}:{value}
+    </div>
+  );
+};
+
 const StatsHeader = (props: Props) => {
   const stats = props.itemStats;
 
@@ -20,12 +32,8 @@ const StatsHeader = (props: Props) => {
 
   return (
     <div className={'flex justify-between '}>
-      <div className={`p-2 ${stdevOk ? 'bg-green-600' : 'bg-red-600'} text-white`}>
-            Stdev:{stdev}
-      </div>
-      <div className={`p-2 ${iqrOk ? 'bg-green-600' : 'bg-red-600'} text-white`}>
-            IQR: {iqr}
-      </div>
+      {getMeasureElement('Stdev', stdevOk, stdev)}
+      {getMeasureElement('IQR', iqrOk, iqr)}
       <div className={'p-2 font-semibold'}>
             Mean: {mean}
       </div>

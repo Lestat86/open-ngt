@@ -20,6 +20,7 @@ type NewTrialFormData = {
       value: number,
       minDefault: number,
       maxDefault: number
+      selected: boolean
     }[]
     criteria: {
       id: number,
@@ -45,12 +46,22 @@ const AddTrial = (props: Props) => {
     const name = data.trialName;
     const measures = data.measures;
     const criteria = data.criteria;
+
     const selectedCriteria = criteria
+      .filter((current) => current.selected);
+    const selectedMeasures = measures
       .filter((current) => current.selected);
 
     if (selectedCriteria.length === 0) {
       setError('root', {
         message: 'Error: at least one criteria must be selected',
+      });
+      return;
+    }
+
+    if (selectedMeasures.length === 0) {
+      setError('root', {
+        message: 'Error: at least one measure must be selected',
       });
       return;
     }
@@ -62,8 +73,7 @@ const AddTrial = (props: Props) => {
 
     const newTrial = await created.json();
 
-    const trialMeasures  = measures
-      .filter((current) => current.value !== 0)
+    const trialMeasures  = selectedMeasures
       .map((current) => ({
         trial_id:   newTrial.id,
         measure_id: current.id,
@@ -116,6 +126,9 @@ const AddTrial = (props: Props) => {
               </div>
               {props.measures.map((current) => (
                 <div className="mt-2" key={current.id}>
+                  <input {...register(`measures.${current.id}.selected`)}
+                    type="checkbox"
+                    className={'mr-2 border-solid border-2 border-gray-300'} />
                   <input hidden
                     {...register(`measures.${current.id}.id`)}
                     type="number"

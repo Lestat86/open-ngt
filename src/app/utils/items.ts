@@ -124,14 +124,17 @@ export const getStats = (parsedData:IParsedAnswer, measures:ITrialMeasureWithNam
 
         const questionSummary = itemSummary[Number(questionId)];
 
+        const stdevOk = targetDevStd ? stdev <= targetDevStd.score : undefined;
+        const iqrOk = targetIQR ? iqr <= targetIQR.score : undefined;
+
         questionSummary[Number(criteriaKey)] = {
-          mean:    mean(lastTurn.data),
-          median:  median(...lastTurn.data),
-          mode:    mode(lastTurn.data),
+          mean:   mean(lastTurn.data),
+          median: median(...lastTurn.data),
+          mode:   mode(lastTurn.data),
           stdev,
-          stdevOk: stdev <= (targetDevStd?.score ?? 0),
+          stdevOk,
           iqr,
-          iqrOk:   iqr <= (targetIQR?.score ?? 0),
+          iqrOk,
         };
       });
   });
@@ -140,7 +143,13 @@ export const getStats = (parsedData:IParsedAnswer, measures:ITrialMeasureWithNam
 };
 
 export const areStatsOk = (itemStat:IItemStat) => {
-  return itemStat.stdevOk && itemStat.iqrOk;
+  const stdevWasUsed = itemStat.stdevOk !== undefined;
+  const iqrWasUsed = itemStat.iqrOk !== undefined;
+
+  const stdevOk = stdevWasUsed ? itemStat.stdevOk : true;
+  const iqrOk = iqrWasUsed ? itemStat.iqrOk : true;
+
+  return stdevOk && iqrOk;
 };
 
 export const isItemOk = (itemStats:IItemStat[]) => {
