@@ -6,7 +6,7 @@ type Props = {
  itemStats: IItemStat
 }
 
-const getMeasureElement = (name:string, isOk?: boolean, value:number) => {
+const getMeasureElement = (name:string, value:number, isOk?: boolean) => {
   if (isOk === undefined) {
     return null;
   }
@@ -32,8 +32,8 @@ const StatsHeader = (props: Props) => {
 
   return (
     <div className={'flex justify-between '}>
-      {getMeasureElement('Stdev', stdevOk, stdev)}
-      {getMeasureElement('IQR', iqrOk, iqr)}
+      {getMeasureElement('Stdev', stdev, stdevOk)}
+      {getMeasureElement('IQR', iqr, iqrOk)}
       <div className={'p-2 font-semibold'}>
             Mean: {mean}
       </div>
