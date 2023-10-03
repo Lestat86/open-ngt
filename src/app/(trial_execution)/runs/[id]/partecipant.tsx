@@ -3,13 +3,12 @@
 import { Database, TrialPartecipant, Trials } from '@/types/database.types';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import React, { useEffect, useState } from 'react';
-import { HydratedTrialItems, IItemSummary, ITrialMeasureWithName } from '@/types/misc';
+import { HydratedTrialItems, ITrialMeasureWithName } from '@/types/misc';
 import TrialItemsForm from './partecipants/items-form';
 import Header from './partecipants/header';
 import { TrialStatus } from '@/app/constants/constants';
 import { useRouter } from 'next/navigation';
 import StandByIndicator from './partecipants/stand-by-indicator';
-import { getParsedAnswers, getStats, isItemOk } from '@/app/utils/items';
 import ErrorComponent from '@/app/components/error-component';
 
 type Props = {
@@ -17,14 +16,6 @@ type Props = {
     turn: number
     partecipants: TrialPartecipant[]
     measures: ITrialMeasureWithName[]
-}
-
-interface IPartecipantAnswersCount {
-  [key: number]: number
-}
-
-interface IItemPartecipantAnswers {
-  [key: string]: IPartecipantAnswersCount
 }
 
 const PartecipantUI = (props: Props) => {
@@ -43,57 +34,12 @@ const PartecipantUI = (props: Props) => {
 
   useEffect(() => {
     const getData = async() => {
-      const { data:answers } = await supabase
-        .from('trial_items_answers')
-        .select('*, criteria(criteria_name),trial_item!inner(trial_id, item_text)')
-        .filter('trial_item.trial_id', 'eq', trial.id);
-
-      let itemsSummary!:IItemSummary;
-      if (answers && answers.length > 0) {
-        const { parsedData } = getParsedAnswers(answers);
-        itemsSummary = getStats(parsedData, measures);
-      }
-
-      const itemPartecipantAnswers:IItemPartecipantAnswers = {};
-
-      answers?.forEach((current) => {
-        if (!itemPartecipantAnswers[current.trial_item_id]) {
-          itemPartecipantAnswers[current.trial_item_id] = {};
-        }
-
-        const currentitem = itemPartecipantAnswers[current.trial_item_id];
-        if (currentitem[current.partecipant_id] === undefined) {
-          currentitem[current.partecipant_id] = 1;
-        } else {
-          currentitem[current.partecipant_id] += 1;
-        }
-      });
-
       const { data:trialItems } = await supabase
         .from('trial_item')
         .select('*, trial_item_with_criteria(*, criteria(*))')
-        .match({ trial_id: trial.id });
+        .match({ trial_id: trial.id, is_homogeneus: false });
 
-      const filteredItems = itemsSummary ? (trialItems ?? []).filter((current) => {
-        const itemStat = itemsSummary[current.id];
-        const itemOk = isItemOk(Object.values(itemStat));
-
-        if (itemOk) {
-          return false;
-        }
-        // in order to avoid false positive, we check that a certain question has
-        // the same amount of answers for all partecipants, signifing that every
-        // partecipant has answered
-        const itemCounts = itemPartecipantAnswers[current.id];
-
-        const allPartecipantsMatch = Object.values(itemCounts)
-          .every((currentCount) => currentCount === itemCounts[0]);
-
-        return !allPartecipantsMatch;
-      })
-        : trialItems;
-
-      setItems(filteredItems);
+      setItems(trialItems);
     };
 
     getData();

@@ -47,9 +47,11 @@ const TrialItemsForm = (props: Props) => {
     setValue,
   } = useForm<NewTrialItemData>();
 
+  const itemsId = items.map((current) => current.id);
+
   const onSubmit = handleSubmit(async(data) => {
     const answers = data.answers
-      .filter((answer) => answer)
+      .filter((answer) => answer && itemsId.includes(Number(answer.itemId)))
       .map((current) => current.criteria.map((criteria) => ({
         trial_item_id:  current.itemId,
         partecipant_id: partecipantId,

@@ -10,7 +10,7 @@ import Controls from './controller/controls';
 import GraphsContainer from './controller/graphs-container';
 import { ITrialMeasureWithName } from '@/types/misc';
 import ReferenceTrialParams from './controller/graphs-container/turn-end-graphs/reference-params';
-import { incrementTurn } from '@/app/utils/misc';
+import { incrementTurn, updateItemsHomogeneity } from '@/app/utils/misc';
 
 type Props = {
     trial: Trials
@@ -82,6 +82,10 @@ const ControllerUI = (props: Props) => {
           if (nextState) {
             if (nextState === TrialStatus.TURN_STARTED) {
               await incrementTurn(trial.id, trial.turn ?? 0);
+            }
+
+            if (nextState === TrialStatus.TURN_ENDED) {
+              await updateItemsHomogeneity(trial.id, trial.turn ?? 0);
             }
 
             await fetch(`${NEXT_URL}/${API_URLS.TRIAL_STATUS}`, {
