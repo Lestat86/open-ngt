@@ -41,6 +41,7 @@ export const API_URLS = {
   ADD_CRITERIA:                    'api/criteria/add-criteria',
   DELETE_CRITERIA:                 'api/criteria/delete-criteria',
   CHANGE_USER_PASSWORD:            'api/users/change-password',
+  TRIAL_ITEM_UDATE_HOMOGENEITY:    'api/trial-items/update-homogeneity',
 };
 
 export const NEXT_URL = process.env.NEXT_PUBLIC_HOST_URL;

@@ -23,3 +23,10 @@ export const incrementTurn = async(trialId: string, current: number) => {
     body:   JSON.stringify({ trialId, turn: current }),
   });
 };
+
+export const updateItemsHomogeneity = async(trialId: string, current: number) => {
+  await fetch(`${NEXT_URL}/${API_URLS.TRIAL_ITEM_UDATE_HOMOGENEITY}`, {
+    method: 'post',
+    body:   JSON.stringify({ trialId, turn: current }),
+  });
+};
