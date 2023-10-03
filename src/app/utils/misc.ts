@@ -1,3 +1,5 @@
+import { API_URLS, NEXT_URL } from '../constants/constants';
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const iqr = require('compute-iqr');
 
@@ -13,4 +15,11 @@ export const downloadFile = (fileBlob: Blob, fileName: string) => {
   document.body.appendChild(link);
   link.click();
   link.remove();
+};
+
+export const incrementTurn = async(trialId: string, current: number) => {
+  await fetch(`${NEXT_URL}/${API_URLS.TRIAL_INCREMENT_TURN}`, {
+    method: 'post',
+    body:   JSON.stringify({ trialId, turn: current }),
+  });
 };

@@ -10,6 +10,7 @@ import Controls from './controller/controls';
 import GraphsContainer from './controller/graphs-container';
 import { ITrialMeasureWithName } from '@/types/misc';
 import ReferenceTrialParams from './controller/graphs-container/turn-end-graphs/reference-params';
+import { incrementTurn } from '@/app/utils/misc';
 
 type Props = {
     trial: Trials
@@ -79,6 +80,10 @@ const ControllerUI = (props: Props) => {
           const nextState = getNextState(payload.new as TrialPartecipant);
 
           if (nextState) {
+            if (nextState === TrialStatus.TURN_STARTED) {
+              await incrementTurn(trial.id, trial.turn ?? 0);
+            }
+
             await fetch(`${NEXT_URL}/${API_URLS.TRIAL_STATUS}`, {
               method: 'post',
               body:   JSON.stringify({ trialId: trial.id, status: nextState }),
@@ -93,7 +98,7 @@ const ControllerUI = (props: Props) => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [ partecipants, router, supabase, trial.id, trial.status ]);
+  }, [ partecipants, router, supabase, trial.id, trial.status, trial.turn ]);
 
   if (!trial) {
     return null;
