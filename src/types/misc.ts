@@ -64,18 +64,25 @@ export interface ITrialMeasureWithName extends TrialMeasures {
 
 export interface IItemStat {
     stdev: number
-    stdevOk: boolean
+    stdevOk: boolean | undefined
     mean: number
     median: number
     mode: MathScalarType
     iqr: number
-    iqrOk: boolean
+    iqrOk: boolean | undefined
 }
 
 export interface ICriteriaTurnStats {
       [criteria: number]: IItemStat
-  }
+}
 
 export interface IItemSummary {
       [question: number]: ICriteriaTurnStats
-  }
+}
+
+export interface ICriteriaMinMax {
+    [key: number]: {
+      min: number
+      max: number
+    }
+}

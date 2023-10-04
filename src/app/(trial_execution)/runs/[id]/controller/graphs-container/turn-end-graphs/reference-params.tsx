@@ -6,6 +6,21 @@ type Props = {
     measures: ITrialMeasureWithName[]
 }
 
+const getMeasureElement = (measure?: ITrialMeasureWithName) => {
+  if (!measure) {
+    return null;
+  }
+
+  return (
+    <div className="flex mr-2">
+      <div className="font-semibold italic mr-2">
+        {measure.measures?.measure_name}
+      </div>
+      {measure.score}
+    </div>
+  );
+};
+
 const ReferenceTrialParams = (props: Props) => {
   const measures = props.measures;
 
@@ -18,18 +33,8 @@ const ReferenceTrialParams = (props: Props) => {
     <div className="flex flex-col text-xl p-2">
       Reference params:
       <div className="flex">
-        <div className="flex mr-2">
-          <div className="font-semibold italic mr-2">
-            {MEASURES_NAMES.STDEV}
-          </div>
-          {targetDevStd?.score}
-        </div>
-        <div className="flex mr-2">
-          <div className="font-semibold italic mr-2">
-            {MEASURES_NAMES.IQR}
-          </div>
-          {targetIQR?.score}
-        </div>
+        {getMeasureElement(targetDevStd)}
+        {getMeasureElement(targetIQR)}
       </div>
     </div>
   );

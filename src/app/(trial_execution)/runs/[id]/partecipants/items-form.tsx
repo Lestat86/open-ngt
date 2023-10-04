@@ -1,5 +1,6 @@
 'use client';
 
+import ErrorComponent from '@/app/components/error-component';
 import { API_URLS, NEXT_URL } from '@/app/constants/constants';
 import { HydratedTrialItems } from '@/types/misc';
 import { useRouter } from 'next/navigation';
@@ -46,9 +47,11 @@ const TrialItemsForm = (props: Props) => {
     setValue,
   } = useForm<NewTrialItemData>();
 
+  const itemsId = items.map((current) => current.id);
+
   const onSubmit = handleSubmit(async(data) => {
     const answers = data.answers
-      .filter((answer) => answer)
+      .filter((answer) => answer && itemsId.includes(Number(answer.itemId)))
       .map((current) => current.criteria.map((criteria) => ({
         trial_item_id:  current.itemId,
         partecipant_id: partecipantId,
@@ -82,7 +85,15 @@ const TrialItemsForm = (props: Props) => {
 
   if (!items.length) {
     return (
-      <div>No questions!</div>
+      <div className="w-full h-screen mt-4 border border-solid shadow-lg flex items-center">
+        <ErrorComponent>
+          <span>
+        There seems to be no questions available.
+            <br/>
+        Please report this to the speaker.
+          </span>
+        </ErrorComponent>
+      </div>
     );
   }
 

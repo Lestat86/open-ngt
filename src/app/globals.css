@@ -36,7 +36,7 @@ body {
 }
 
 .styled-table {
-  @apply shadow-lg w-full;
+  @apply shadow-lg w-full h-full;
 
   .rdg-cell {
     display: flex;

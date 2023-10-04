@@ -6,16 +6,15 @@ import React from 'react';
 type Props = {
     currentStatus: number
     showIfInStatus: number
-    forceHide?: boolean
     statusToSet: number
     trialId: string
     clickFun?: () => void
 }
 
 const StatusButton = (props: Props) => {
-  const { currentStatus, showIfInStatus, forceHide, statusToSet, trialId, clickFun } = props;
+  const { currentStatus, showIfInStatus, statusToSet, trialId, clickFun } = props;
 
-  if ((currentStatus !== showIfInStatus) || forceHide) {
+  if (currentStatus !== showIfInStatus) {
     return null;
   }
 

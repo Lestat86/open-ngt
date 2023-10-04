@@ -20,6 +20,7 @@ type NewTrialFormData = {
       value: number,
       minDefault: number,
       maxDefault: number
+      selected: boolean
     }[]
     criteria: {
       id: number,
@@ -45,12 +46,22 @@ const AddTrial = (props: Props) => {
     const name = data.trialName;
     const measures = data.measures;
     const criteria = data.criteria;
+
     const selectedCriteria = criteria
+      .filter((current) => current.selected);
+    const selectedMeasures = measures
       .filter((current) => current.selected);
 
     if (selectedCriteria.length === 0) {
       setError('root', {
         message: 'Error: at least one criteria must be selected',
+      });
+      return;
+    }
+
+    if (selectedMeasures.length === 0) {
+      setError('root', {
+        message: 'Error: at least one measure must be selected',
       });
       return;
     }
@@ -62,8 +73,7 @@ const AddTrial = (props: Props) => {
 
     const newTrial = await created.json();
 
-    const trialMeasures  = measures
-      .filter((current) => current.value !== 0)
+    const trialMeasures  = selectedMeasures
       .map((current) => ({
         trial_id:   newTrial.id,
         measure_id: current.id,
@@ -112,10 +122,13 @@ const AddTrial = (props: Props) => {
 
             <div className="mt-4">
               <div className="text-xl font-semibold">
-                Measures:
+                Measures of dispersion:
               </div>
               {props.measures.map((current) => (
                 <div className="mt-2" key={current.id}>
+                  <input {...register(`measures.${current.id}.selected`)}
+                    type="checkbox"
+                    className={'mr-2 border-solid border-2 border-gray-300'} />
                   <input hidden
                     {...register(`measures.${current.id}.id`)}
                     type="number"
@@ -141,12 +154,12 @@ const AddTrial = (props: Props) => {
                   <input placeholder={`${current.criteria_name} min default`}
                     {...register(`criteria.${current.id}.minDefault`)}
                     type="number"
-                    step="0.01"
+                    min={1}
                     className={`p-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
                   <input placeholder={`${current.criteria_name} max default`}
                     {...register(`criteria.${current.id}.maxDefault`)}
                     type="number"
-                    step="0.01"
+                    min={1}
                     className={`p-2 ml-2 border-solid border-2 ${isValid ? 'border-gray-300' : 'border-red-600'}`} />
                   <input hidden
                     {...register(`criteria.${current.id}.id`)}

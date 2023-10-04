@@ -56,7 +56,7 @@ export default async function RootLayout(props: Props) {
       <body className={inter.className}>
         <div className="flex w-full h-screen">
           <NavBar />
-          <main className="py-4 px-8 w-full bg-white text-black">
+          <main className="py-4 px-8 w-full bg-white text-black h-screen">
             {props.children}
           </main>
         </div>

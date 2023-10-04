@@ -1,12 +1,13 @@
+import { Database } from '@/types/database.types';
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
-  const { partecipantId } = await request.json();
+export async function PUT(request: Request) {
+  const { trialId } = await request.json();
 
-  if (!partecipantId) {
+  if (!trialId) {
     return new NextResponse(
-      JSON.stringify({ success: false, message: 'partecipant id missing' }),
+      JSON.stringify({ success: false, message: 'trial id missing' }),
       { status: 500, headers: { 'content-type': 'application/json' } },
     );
   }
@@ -25,16 +26,16 @@ export async function POST(request: Request) {
     );
   }
 
-  const supabase = createClient(
+  const supabase = createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY,
   );
 
-  const { data, error } = await supabase
+  const { data:partecipant, error } = await supabase
     .from('trial_partecipant')
-    .update({ isPresent: true })
-    .eq('partecipant_id', partecipantId)
-    .select();
+    .insert({ trial_id: trialId, isPresent: true })
+    .select()
+    .single();
 
   if (error) {
     return new NextResponse(
@@ -43,12 +44,19 @@ export async function POST(request: Request) {
     );
   }
 
-  if (data.length === 0) {
+  const partecipantId = `partecipant_${partecipant.id}`;
+
+  const { error:partecipantUpdateError } = await supabase
+    .from('trial_partecipant')
+    .update({ partecipant_id: partecipantId })
+    .eq('id', partecipant.id);
+
+  if (partecipantUpdateError) {
     return new NextResponse(
-      JSON.stringify({ success: false, message: 'The user provided does not exists' }),
+      JSON.stringify({ success: false, message: partecipantUpdateError.message }),
       { status: 500, headers: { 'content-type': 'application/json' } },
     );
   }
 
-  return NextResponse.json(data[0]);
+  return NextResponse.json({ partecipantId });
 }

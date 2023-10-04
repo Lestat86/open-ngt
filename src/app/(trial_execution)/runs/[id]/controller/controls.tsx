@@ -5,26 +5,27 @@ import StatusButton from './status-button';
 import { API_URLS, NEXT_URL, TrialStatus } from '@/app/constants/constants';
 import DownloadCsvButton from './controls/download-csv-button';
 import CloseTrialRunButton from './controls/close-trial-run-button';
+import { incrementTurn, updateItemsHomogeneity } from '@/app/utils/misc';
 
 type Props = {
     status: number
     trialId: string
-    allSubmitted: boolean
     turn: number
 }
 
 const Controls = (props: Props) => {
-  const { status, trialId, allSubmitted, turn } = props;
+  const { status, trialId, turn } = props;
 
-  const incrementTurn = async() => {
-    await fetch(`${NEXT_URL}/${API_URLS.TRIAL_INCREMENT_TURN}`, {
-      method: 'post',
-      body:   JSON.stringify({ trialId, turn }),
-    });
+  const startNewTurn = async() => {
+    await incrementTurn(trialId, turn);
+  };
+
+  const endTurn = async() => {
+    await updateItemsHomogeneity(trialId, turn);
   };
 
   const resetSubmissionsAndIncrement = async() => {
-    await incrementTurn();
+    await incrementTurn(trialId, turn);
 
     await fetch(`${NEXT_URL}/${API_URLS.PARTECIPANT_RESET_ALL_SUBMITTED}`, {
       method: 'post',
@@ -45,12 +46,13 @@ const Controls = (props: Props) => {
       <StatusButton currentStatus={status}
         showIfInStatus={TrialStatus.STARTED}
         statusToSet={TrialStatus.TURN_STARTED}
-        clickFun={incrementTurn}
+        clickFun={startNewTurn}
         trialId={trialId} />
       <StatusButton currentStatus={status}
         showIfInStatus={TrialStatus.TURN_STARTED}
-        forceHide={!allSubmitted}
-        statusToSet={TrialStatus.TURN_ENDED} trialId={trialId} />
+        statusToSet={TrialStatus.TURN_ENDED}
+        clickFun={endTurn}
+        trialId={trialId} />
       <StatusButton currentStatus={status}
         showIfInStatus={TrialStatus.TURN_ENDED}
         clickFun={resetSubmissionsAndIncrement}

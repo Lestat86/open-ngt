@@ -2,7 +2,7 @@
 
 import Histogram from '@/app/components/plots/histogram';
 import { isItemOk } from '@/app/utils/items';
-import { ICriteriaMap, ICriteriaTurn, IItemSummary, IParsedAnswer, IQuestionMap } from '@/types/misc';
+import { ICriteriaMap, ICriteriaMinMax, IItemSummary, IParsedAnswer, IQuestionMap } from '@/types/misc';
 import React from 'react';
 import StatsHeader from './turn-end-graphs/stats-header';
 import { FaCircleCheck, FaRegCircleXmark } from 'react-icons/fa6';
@@ -11,24 +11,28 @@ import { TrialPartecipant } from '@/types/database.types';
 type Props = {
     show: boolean
     parsedData: IParsedAnswer
+    histoData: IParsedAnswer
     criteriaMap: ICriteriaMap
     questionMap: IQuestionMap
     itemsSummary: IItemSummary
     partecipants: TrialPartecipant[]
+    criteriaMinMax:ICriteriaMinMax
 }
 
 const TurnEndGraphs = (props: Props) => {
-  const { show, parsedData, criteriaMap, questionMap, itemsSummary, partecipants } = props;
+  const { show, parsedData, histoData, criteriaMap, questionMap, itemsSummary,
+    partecipants, criteriaMinMax } = props;
 
   if (!show) {
     return null;
   }
 
-  if (!parsedData) {
+  if (!parsedData || !histoData) {
     return null;
   }
 
-  const labels = partecipants.map((partecipant) => partecipant.partecipant_id!);
+  const minY = 0;
+  const maxY = partecipants.length;
 
   return (
     <div className="flex flex-col w-full overflow-y-auto">
@@ -51,9 +55,20 @@ const TurnEndGraphs = (props: Props) => {
                 }
               </div>
               <div className="flex my-4 w-full border border-solid p-1">
-                {Object.entries(questionValue).map(([ criteriaId, turnsValues ]) => {
+                {Object.entries(questionValue).map((turnCriterias) => {
+                  const criteriaId = turnCriterias[0];
+
                   const itemStats = questionItem[Number(criteriaId)];
-                  const datasets = Object.values(turnsValues as ICriteriaTurn);
+                  const datasets = Object.values(histoData[Number(questionId)][Number(criteriaId)]);
+
+                  const minX = criteriaMinMax[Number(criteriaId)]?.min;
+                  const maxX = criteriaMinMax[Number(criteriaId)]?.max;
+
+                  const labels = [];
+
+                  for (let i = minX; i <= maxX; i++) {
+                    labels.push(`${i}`);
+                  }
 
                   return (
                     <div className="flex flex-col mx-2 w-full border-r p-2" key={`criteria_${criteriaId}`}>
@@ -61,6 +76,7 @@ const TurnEndGraphs = (props: Props) => {
                       <div className="w-[90%]">
                         <Histogram datasets={datasets}
                           labels={labels} key={`histo_${questionId}_${criteriaId}`}
+                          minY={minY} maxY={maxY}
                           title={criteriaMap[criteriaId]} legend={true} />
                       </div>
                     </div>

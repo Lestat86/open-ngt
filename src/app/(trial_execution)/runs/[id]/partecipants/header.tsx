@@ -1,7 +1,7 @@
 'use client';
 
 import { API_URLS, NEXT_URL, TrialStatus } from '@/app/constants/constants';
-import React, { useState } from 'react';
+import React from 'react';
 import { FaClipboardList } from 'react-icons/fa6';
 import TurnIndicator from './turn-indicator';
 
@@ -12,27 +12,30 @@ type Props = {
     errorFun: (hasError: boolean) => void
     turn: number
     currentStatus: TrialStatus
+    trialId: string
 }
 
 const Header = (props: Props) => {
-  const { storeKey, storedUser, storeUserFun, errorFun, turn, currentStatus } = props;
-  const [ value, setValue ] = useState('');
+  const { storeKey, storedUser, storeUserFun, errorFun, turn, currentStatus, trialId } = props;
 
   const enterTrial = async() => {
     await fetch(`${NEXT_URL}/${API_URLS.PARTECIPANT_LOGIN}`, {
-      method: 'post',
-      body:   JSON.stringify({ partecipantId: value }),
+      method: 'put',
+      body:   JSON.stringify({ trialId }),
     }).then((response) => {
       if (response.ok) {
-        sessionStorage.setItem(storeKey, value);
-        storeUserFun(value);
-      } else {
-        errorFun(true);
-      }
-    }).catch((e) => console.log(e));
-  };
+        return response.json().then((parsed) => {
+          const partecipantId = parsed.partecipantId;
+          sessionStorage.setItem(storeKey, partecipantId);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
+          storeUserFun(partecipantId);
+        });
+      }
+
+      errorFun(true);
+      return null;
+    }).catch((e) => console.error(e));
+  };
 
   if (storedUser) {
     return (
@@ -52,9 +55,6 @@ const Header = (props: Props) => {
     <div className="flex justify-center items-center w-full h-full mt-2 border border-solid shadow-lg">
       <div className="flex flex-col justify-center items-center">
         <FaClipboardList className="text-6xl" />
-        <input placeholder="Enter your partecipant id..."
-          onChange={handleChange}
-          className={'p-1 border-solid border-2 border-gray-300 my-4'} />
         <button onClick={enterTrial} className="button-primary m-2">Enter trial</button>
       </div>
     </div>

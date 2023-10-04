@@ -1,10 +1,22 @@
-import { areStatsOk, twoDecimals } from '@/app/utils/items';
+import { twoDecimals } from '@/app/utils/items';
 import { IItemStat } from '@/types/misc';
 import React from 'react';
 
 type Props = {
  itemStats: IItemStat
 }
+
+const getMeasureElement = (name:string, value:number, isOk?: boolean) => {
+  if (isOk === undefined) {
+    return null;
+  }
+
+  return (
+    <div className={`p-2 ${isOk ? 'bg-green-600' : 'bg-red-600'} text-white`}>
+      {name}:{value}
+    </div>
+  );
+};
 
 const StatsHeader = (props: Props) => {
   const stats = props.itemStats;
@@ -15,16 +27,13 @@ const StatsHeader = (props: Props) => {
   const mode = stats.mode.toLocaleString();
   const iqr = twoDecimals(stats.iqr);
 
-  const itemOk = areStatsOk(stats);
+  const stdevOk = stats.stdevOk;
+  const iqrOk = stats.iqrOk;
 
   return (
     <div className={'flex justify-between '}>
-      <div className={`p-2 ${itemOk ? 'bg-green-600' : 'bg-red-600'} text-white`}>
-            Stdev:{stdev}
-      </div>
-      <div className={`p-2 ${itemOk ? 'bg-green-600' : 'bg-red-600'} text-white`}>
-            IQR: {iqr}
-      </div>
+      {getMeasureElement('Stdev', stdev, stdevOk)}
+      {getMeasureElement('IQR', iqr, iqrOk)}
       <div className={'p-2 font-semibold'}>
             Mean: {mean}
       </div>

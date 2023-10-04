@@ -10,6 +10,7 @@ import Controls from './controller/controls';
 import GraphsContainer from './controller/graphs-container';
 import { ITrialMeasureWithName } from '@/types/misc';
 import ReferenceTrialParams from './controller/graphs-container/turn-end-graphs/reference-params';
+import { incrementTurn, updateItemsHomogeneity } from '@/app/utils/misc';
 
 type Props = {
     trial: Trials
@@ -79,6 +80,14 @@ const ControllerUI = (props: Props) => {
           const nextState = getNextState(payload.new as TrialPartecipant);
 
           if (nextState) {
+            if (nextState === TrialStatus.TURN_STARTED) {
+              await incrementTurn(trial.id, trial.turn ?? 0);
+            }
+
+            if (nextState === TrialStatus.TURN_ENDED) {
+              await updateItemsHomogeneity(trial.id, trial.turn ?? 0);
+            }
+
             await fetch(`${NEXT_URL}/${API_URLS.TRIAL_STATUS}`, {
               method: 'post',
               body:   JSON.stringify({ trialId: trial.id, status: nextState }),
@@ -93,20 +102,30 @@ const ControllerUI = (props: Props) => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [ partecipants, router, supabase, trial.id, trial.status ]);
+  }, [ partecipants, router, supabase, trial.id, trial.status, trial.turn ]);
 
   if (!trial) {
     return null;
   }
 
   const getMissingPartecipants = () => {
-    const total = partecipants.length;
+    const total = trial.estimated_partecipants;
     const present = partecipants.filter((current) => current.isPresent).length;
 
-    return total - present;
-  };
+    let label = '';
+    if (total > present && present > 0) {
+      label = `There are ${present - total} partecipants extra`;
+    } else {
+      const missing = total - present;
+      label = `Missing: ${missing}`;
+    }
 
-  const allSubmitted = partecipants.every((partecipant) => partecipant.has_submitted);
+    return (
+      <div className="text-lg font-semibold">
+        {label}
+      </div>
+    );
+  };
 
   return (
     <div className="flex flex-col w-full h-full overflow-y-hidden">
@@ -135,13 +154,10 @@ const ControllerUI = (props: Props) => {
       </div>
 
       <div className="flex w-full h-[90%]">
-        <div className="flex flex-col w-[20%] mt-4 border border-solid shadow-lg p-4">
-          <Controls status={trial.status} trialId={trial.id}
-            allSubmitted={allSubmitted} turn={trial.turn ?? 0} />
+        <div className="flex flex-col w-[20%] mt-4 border border-solid shadow-lg px-3 py-2 h-[calc(100%-3rem)] overflow-y-auto">
+          <Controls status={trial.status} trialId={trial.id} turn={trial.turn ?? 0} />
           <div className="mt-32">
-            <div className="text-lg font-semibold">
-                Missing: {getMissingPartecipants()}
-            </div>
+            {getMissingPartecipants()}
             <TrialPartecipantsTable rows={partecipants} showStatus />
           </div>
         </div>

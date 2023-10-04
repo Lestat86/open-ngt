@@ -92,18 +92,21 @@ export interface Database {
         Row: {
           created_at: string | null;
           id: number;
+          is_homogeneus: boolean;
           item_text: string;
           trial_id: string;
         };
         Insert: {
           created_at?: string | null;
           id?: number;
+          is_homogeneus?: boolean;
           item_text: string;
           trial_id: string;
         };
         Update: {
           created_at?: string | null;
           id?: number;
+          is_homogeneus?: boolean;
           item_text?: string;
           trial_id?: string;
         };
@@ -279,6 +282,7 @@ export interface Database {
       trials: {
         Row: {
           created_at: string | null;
+          estimated_partecipants: number;
           exported: boolean;
           exported_at: string | null;
           id: string;
@@ -291,6 +295,7 @@ export interface Database {
         };
         Insert: {
           created_at?: string | null;
+          estimated_partecipants?: number;
           exported?: boolean;
           exported_at?: string | null;
           id?: string;
@@ -303,6 +308,7 @@ export interface Database {
         };
         Update: {
           created_at?: string | null;
+          estimated_partecipants?: number;
           exported?: boolean;
           exported_at?: string | null;
           id?: string;

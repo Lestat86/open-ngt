@@ -88,7 +88,7 @@ const getColumns = (
       {
         key:   `${current.id}_minValue`,
         name:  `${current.criteria_name} Min Value`,
-        width: '15%',
+        width: '10%',
         renderCell(props: CriteriaCellProps) {
           const associatedCriteria = props.row.trial_item_with_criteria
             .find((item) => item.criteria_id === current.id);
