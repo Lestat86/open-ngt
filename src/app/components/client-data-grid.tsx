@@ -21,7 +21,7 @@ const ClientDataGrid = (props: Props) => {
   const { columns, rows, emptyMessage } = props;
 
   return (
-    <div className="shadow-lg">
+    <div className="shadow-lg h-[90%]">
       <DataGrid className="styled-table"
         columns={columns} rows={rows} renderers={{
           noRowsFallback: <EmptyRowsRenderer message={emptyMessage} />,
