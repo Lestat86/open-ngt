@@ -92,7 +92,7 @@ const PartecipantUI = (props: Props) => {
       </div>
       <Header storeKey={keyId} storedUser={storedUser}
         storeUserFun={setStoredUser} errorFun={setHasError}
-        turn={turn} currentStatus={trial.status}/>
+        turn={turn} currentStatus={trial.status} trialId={trial.id} />
       <StandByIndicator partecipant={partecipant} currentStatus={trial.status} />
       <TrialItemsForm items={items!} show={showItems} turn={turn} partecipantId={partecipant?.id} />
     </div>

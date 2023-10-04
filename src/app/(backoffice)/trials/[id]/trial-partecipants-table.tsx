@@ -45,7 +45,7 @@ const getColumns = (showStatus?: boolean) => {
 };
 
 const TrialPartecipantsTable = (props: Props) => (
-  <ClientDataGrid columns={getColumns(props.showStatus)} rows={props.rows} emptyMessage="no items!" />
+  <ClientDataGrid columns={getColumns(props.showStatus)} rows={props.rows} emptyMessage="No partecipant yet." />
 );
 
 export default TrialPartecipantsTable;

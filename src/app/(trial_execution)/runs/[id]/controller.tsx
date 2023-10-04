@@ -109,10 +109,22 @@ const ControllerUI = (props: Props) => {
   }
 
   const getMissingPartecipants = () => {
-    const total = partecipants.length;
+    const total = trial.estimated_partecipants;
     const present = partecipants.filter((current) => current.isPresent).length;
 
-    return total - present;
+    let label = '';
+    if (total > present && present > 0) {
+      label = `There are ${present - total} partecipants extra`;
+    } else {
+      const missing = total - present;
+      label = `Missing: ${missing}`;
+    }
+
+    return (
+      <div className="text-lg font-semibold">
+        {label}
+      </div>
+    );
   };
 
   return (
@@ -145,9 +157,7 @@ const ControllerUI = (props: Props) => {
         <div className="flex flex-col w-[20%] mt-4 border border-solid shadow-lg px-3 py-2 h-[calc(100%-3rem)] overflow-y-auto">
           <Controls status={trial.status} trialId={trial.id} turn={trial.turn ?? 0} />
           <div className="mt-32">
-            <div className="text-lg font-semibold">
-                Missing: {getMissingPartecipants()}
-            </div>
+            {getMissingPartecipants()}
             <TrialPartecipantsTable rows={partecipants} showStatus />
           </div>
         </div>

@@ -6,32 +6,20 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 export async function PUT(request: Request) {
-  const { partecipants } = await request.json();
+  const { trialId, partecipants } = await request.json();
 
-  const supabase = createRouteHandlerClient<Database>({ cookies });
-  const { data, error } = await supabase
-    .from('trial_partecipant')
-    .insert(partecipants)
-    .select();
-
-  if (error) {
+  if (!trialId) {
     return new NextResponse(
-      JSON.stringify({ success: false, message: error.message }),
+      JSON.stringify({ success: false, message: 'trial id missing' }),
       { status: 500, headers: { 'content-type': 'application/json' } },
     );
   }
 
-  return NextResponse.json(data);
-}
-
-export async function DELETE(request: Request) {
-  const { partecipantsToDelete } = await request.json();
-
   const supabase = createRouteHandlerClient<Database>({ cookies });
   const { data, error } = await supabase
-    .from('trial_partecipant')
-    .delete()
-    .in('partecipant_id', partecipantsToDelete);
+    .from('trials')
+    .update({ estimated_partecipants: partecipants })
+    .eq('id', trialId);
 
   if (error) {
     return new NextResponse(

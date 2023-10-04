@@ -6,7 +6,6 @@ import { cookies } from 'next/headers';
 import NewTrialItem from './new-trial-item';
 import TrialItemsTable from './trial-items-table';
 import ManagePartecipants from './manage-partecipants';
-import TrialPartecipantsTable from './trial-partecipants-table';
 import ReferenceTrialParams from '@/app/(trial_execution)/runs/[id]/controller/graphs-container/turn-end-graphs/reference-params';
 import DeleteTrial from '../delete-trial';
 import { TrialStatus, TrialStatusLabels } from '@/app/constants/constants';
@@ -40,11 +39,6 @@ const EditTrial = async(props: Props) => {
   const { data: criteria } = await supabase
     .from('criteria')
     .select();
-
-  const { data: trialPartecipants } = await supabase
-    .from('trial_partecipant')
-    .select()
-    .match({ trial_id: trialId });
 
   const { data: measures } = await supabase
     .from('trial_measures')
@@ -113,7 +107,15 @@ const EditTrial = async(props: Props) => {
       </div>
       <ReferenceTrialParams measures={measures!} />
 
-      <div className="flex items-center justify-between py-1 mt-2 w-full">
+      <div className="flex items-center justify-between py-1 mt-4">
+        <span className="text-2xl mr-2">
+          {`This trial will have ${trial?.estimated_partecipants} partecipants`}
+        </span>
+        <ManagePartecipants trialId={trialId} partecipants={trial!.estimated_partecipants}
+          currentStatus={trial!.status} />
+      </div>
+
+      <div className="flex items-center py-1 mt-2 w-full">
         <span className="text-2xl mr-2">
           {`This trial has ${trialItemsWithCriteria?.length} items`}
         </span>
@@ -123,16 +125,6 @@ const EditTrial = async(props: Props) => {
 
       <TrialItemsTable rows={trialItemsWithCriteria!} criteria={criteria!}
         status={trial!.status} selectedCriteria={selectedCriteria!}/>
-
-      <div className="flex items-center justify-between py-1 mt-4">
-        <span className="text-2xl mr-2">
-          {`This trial has ${trialPartecipants?.length} partecipants`}
-        </span>
-        <ManagePartecipants trialId={trialId} partecipants={trialPartecipants ?? []}
-          trialProgressive={trial!.progressive ?? 0} currentStatus={trial!.status} />
-      </div>
-
-      <TrialPartecipantsTable rows={trialPartecipants ?? []} />
     </div>
   );
 };
