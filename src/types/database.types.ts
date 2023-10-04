@@ -282,6 +282,7 @@ export interface Database {
       trials: {
         Row: {
           created_at: string | null;
+          estimated_partecipants: number;
           exported: boolean;
           exported_at: string | null;
           id: string;
@@ -294,6 +295,7 @@ export interface Database {
         };
         Insert: {
           created_at?: string | null;
+          estimated_partecipants?: number;
           exported?: boolean;
           exported_at?: string | null;
           id?: string;
@@ -306,6 +308,7 @@ export interface Database {
         };
         Update: {
           created_at?: string | null;
+          estimated_partecipants?: number;
           exported?: boolean;
           exported_at?: string | null;
           id?: string;
