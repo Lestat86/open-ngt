@@ -71,13 +71,8 @@ export const getTurnHistogram = (answers:ITrialAnswerWithCriteriaAndText[],
     const currentCriteria = currentQuestion[answer.criteria_id];
 
     if (!currentCriteria[answer.turn]) {
-      const criteriaMin = criteriaMinMax[answer.criteria_id].min;
       const criteriaMax = criteriaMinMax[answer.criteria_id].max;
-      const values = [];
-
-      for (let i = criteriaMin; i <= criteriaMax; i++) {
-        values[i] = 0;
-      }
+      const values = Array(criteriaMax).fill(0);
 
       currentCriteria[answer.turn] = {
         label:           `Turn ${answer.turn}`,
@@ -91,7 +86,7 @@ export const getTurnHistogram = (answers:ITrialAnswerWithCriteriaAndText[],
 
     const currentTurn = currentCriteria[answer.turn];
 
-    currentTurn.data[answer.score]++;
+    currentTurn.data[answer.score - 1]++;
   });
 
   return parsedData;

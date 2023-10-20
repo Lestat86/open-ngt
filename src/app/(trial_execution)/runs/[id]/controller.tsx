@@ -113,11 +113,11 @@ const ControllerUI = (props: Props) => {
     const present = partecipants.filter((current) => current.isPresent).length;
 
     let label = '';
-    if (total > present && present > 0) {
-      label = `There are ${present - total} partecipants extra`;
-    } else {
+    if (present < total) {
       const missing = total - present;
       label = `Missing: ${missing}`;
+    } else {
+      label = `There are ${present - total} partecipants extra`;
     }
 
     return (
