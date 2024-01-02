@@ -6,6 +6,8 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  console.log('API Called!');
+
   const supabase = createRouteHandlerClient<Database>({ cookies });
   const { data, error } = await supabase
     .from('criteria')
